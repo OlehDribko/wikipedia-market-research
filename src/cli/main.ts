@@ -1,4 +1,5 @@
 import { parseArgs, type ParseArgsOptionsConfig } from 'node:util';
+import { FileCache, resolveCacheDir } from '../cache/fileCache.ts';
 import { buildUserAgent, createAxiosTransport, createJsonClient } from '../wikimedia/http.ts';
 import { COMMANDS, findCommand, type Command, type CommandDeps } from './commands.ts';
 import { VERSION } from '../version.ts';
@@ -18,6 +19,8 @@ const defaultIO: CliIO = {
 
 const defaultDeps: CommandDeps = {
   wikimedia: () => createJsonClient({ transport: createAxiosTransport(buildUserAgent(process.env)) }),
+  cache: () => new FileCache({ dir: resolveCacheDir(process.env) }),
+  now: () => new Date(),
 };
 
 const HELP_FLAGS = new Set(['-h', '--help']);

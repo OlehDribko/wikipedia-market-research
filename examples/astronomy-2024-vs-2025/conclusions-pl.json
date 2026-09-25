@@ -1,0 +1,32 @@
+{
+  "language": "pl",
+  "headline": "Zainteresowanie astronomią w Wikipedii było w 2025 roku niższe niż w 2024 roku w obu wersjach językowych",
+  "findings": [
+    {
+      "statement": "W polskiej Wikipedii średnia dzienna liczba odsłon spadła z 73,59 do 55,79, czyli o 24,2 %.",
+      "evidence": ["pl.compare-1.averageDaily", "pl.compare-2.averageDaily", "pl.compare-1_vs_compare-2.averageDailyPercentChange"]
+    },
+    {
+      "statement": "W ukraińskiej Wikipedii spadek był znacznie większy: −59,74 % odsłon dziennie.",
+      "evidence": ["uk.compare-1_vs_compare-2.averageDailyPercentChange"]
+    },
+    {
+      "statement": "W 2024 roku polski artykuł wykazał statystycznie istotny trend spadkowy (p = 0,02098); w 2025 roku brak wyraźnego trendu.",
+      "evidence": ["pl.compare-1.trend.direction", "pl.compare-1.trend.pValue", "pl.compare-2.trend.direction"]
+    },
+    {
+      "statement": "Najwyższy miesiąc w 2025 roku (3845 odsłon) został oznaczony jako skok o nieznanej przyczynie i pozostaje w sumach.",
+      "evidence": ["pl.compare-2.max", "pl.compare-2.anomalies.count"]
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis": "Część polskojęzycznych odbiorców szuka wiedzy o astronomii w innych kanałach niż Wikipedia.",
+      "validationIdea": "Porównać z danymi wyszukiwarek i przeprowadzić 10 krótkich wywiadów z potencjalnymi klientami."
+    }
+  ],
+  "limitations": [
+    "Analizowano jeden artykuł na wersję językową; powiązane artykuły nie są uwzględnione.",
+    "Spadek może odzwierciedlać ogólne zmiany ruchu w Wikipedii, a nie samo zainteresowanie tematem."
+  ]
+}

@@ -1,5 +1,8 @@
 import type { z } from 'zod';
 import { ReportInputSchema, ResearchInputSchema, ResolveInputSchema } from '../schemas/inputs.ts';
+import type { FileCache } from '../cache/fileCache.ts';
+import { ReportError, runReport } from '../report/report.ts';
+import { OutputWriteError, ResearchResolutionError, runResearch } from '../research/research.ts';
 import { ResolveResultSchema } from '../schemas/resolve.ts';
 import { WikimediaApiError, type JsonClient } from '../wikimedia/http.ts';
 import { InvalidLanguageError, resolveTopic } from '../wikimedia/resolve.ts';
@@ -9,6 +12,9 @@ import { CliError, ErrorCode } from './errors.ts';
 /** External services, created lazily so that --help and validation never touch the network. */
 export interface CommandDeps {
   wikimedia(): JsonClient;
+  /** null disables caching. */
+  cache(): FileCache | null;
+  now(): Date;
 }
 
 export interface OptionSpec {
@@ -57,6 +63,21 @@ export function toCliError(error: unknown): unknown {
       details: { invalidCodes: error.codes },
     });
   }
+  if (error instanceof ResearchResolutionError) {
+    const hints: Record<typeof error.code, string> = {
+      AMBIGUOUS_TOPIC: 'Show the candidates to the user, then run research with --article LANG:Title using the chosen candidate.',
+      TOPIC_NOT_FOUND: 'Ask the user to rephrase the topic or to name another source language.',
+      ARTICLE_NOT_FOUND: 'Run resolve with the topic to find the exact article title, then retry.',
+      NO_VERIFIED_ARTICLES: 'Tell the user no requested language has this article; ask which other languages to use.',
+    };
+    return new CliError(ErrorCode[error.code], error.message, { hint: hints[error.code], details: error.details });
+  }
+  if (error instanceof ReportError) {
+    return new CliError(ErrorCode[error.code], error.message, { hint: error.hint, ...(error.details !== undefined && { details: error.details }) });
+  }
+  if (error instanceof OutputWriteError) {
+    return new CliError(ErrorCode.OUTPUT_ERROR, error.message, { hint: 'Choose a writable directory with --out.' });
+  }
   if (error instanceof WikimediaApiError) {
     const unexpected = error.kind === 'unexpected_response' || error.kind === 'api_error';
     return new CliError(unexpected ? ErrorCode.UNEXPECTED_RESPONSE : ErrorCode.UPSTREAM_ERROR, error.message, {
@@ -86,19 +107,10 @@ export function validateInput<S extends z.ZodType>(command: string, schema: S, r
   });
 }
 
-function notImplemented(command: string, stage: number) {
-  return async (input: unknown): Promise<CommandResult> => {
-    throw new CliError(ErrorCode.NOT_IMPLEMENTED, `The "${command}" command is not implemented yet.`, {
-      hint: `Input is valid. Execution arrives in development stage ${stage}.`,
-      details: { validatedInput: input },
-    });
-  };
-}
-
 export const COMMANDS: readonly Command[] = [
   defineCommand({
     name: 'research',
-    summary: 'Resolve articles, fetch pageviews and run statistical analysis (main command).',
+    summary: 'Resolve articles, collect pageviews with quality checks and run the statistical analysis (main command).',
     usage: 'research (--topic <text> --lang <code> | --article <lang:Title>) --langs <codes> [options]',
     options: [
       { name: 'topic', type: 'string', description: 'Topic text to resolve to a Wikipedia article (requires --lang).' },
@@ -120,7 +132,7 @@ export const COMMANDS: readonly Command[] = [
         description: 'auto | daily | monthly. auto = monthly when all ranges are whole calendar months, otherwise daily.',
       },
       { name: 'out', type: 'string', defaultText: 'output', description: 'Directory for the full research JSON file.' },
-      { name: 'no-cache', type: 'boolean', description: 'Ignore cached Wikimedia responses.' },
+      { name: 'no-cache', type: 'boolean', description: 'Fetch fresh Wikimedia data instead of reading the cache (the cache is refreshed).' },
     ],
     examples: [
       'research --topic "Intermittent fasting" --lang en --langs en,de,uk',
@@ -128,7 +140,10 @@ export const COMMANDS: readonly Command[] = [
       'research --article en:Pilates --langs en,uk --compare 2024-01..2024-06,2025-01..2025-06',
     ],
     schema: ResearchInputSchema,
-    handler: notImplemented('research', 4),
+    handler: async (request, deps) => {
+      const outcome = await runResearch(request, { api: deps.wikimedia(), cache: deps.cache(), now: () => deps.now() });
+      return { data: outcome.summary, warnings: outcome.warnings, limitations: outcome.limitations };
+    },
   }),
   defineCommand({
     name: 'resolve',
@@ -153,12 +168,15 @@ export const COMMANDS: readonly Command[] = [
     usage: 'report --research <file.json> --conclusions <file.json> [--out <file.pdf>]',
     options: [
       { name: 'research', type: 'string', required: true, description: 'Research JSON file written by the research command.' },
-      { name: 'conclusions', type: 'string', required: true, description: 'Conclusions JSON file (see SKILL.md for the schema).' },
-      { name: 'out', type: 'string', description: 'Output PDF path. Default: next to the research file.' },
+      { name: 'conclusions', type: 'string', required: true, description: 'Conclusions JSON file; its "language" sets the report language (see SKILL.md).' },
+      { name: 'out', type: 'string', description: 'Output PDF path. Default: report-<id>-<lang>.pdf next to the research file. The chart SVG is written beside it.' },
     ],
     examples: ['report --research output/research-1a2b3c.json --conclusions output/conclusions.json'],
     schema: ReportInputSchema,
-    handler: notImplemented('report', 6),
+    handler: async (request, deps) => {
+      const { result, warnings } = await runReport(request, { now: () => deps.now() });
+      return { data: result, warnings };
+    },
   }),
 ];
 

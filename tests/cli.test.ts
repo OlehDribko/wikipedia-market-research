@@ -1,9 +1,13 @@
 import { execFile } from 'node:child_process';
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { promisify } from 'node:util';
 import { describe, expect, it } from 'vitest';
 import type { CommandDeps } from '../src/cli/commands.ts';
 import { main } from '../src/cli/main.ts';
 import { EnvelopeSchema } from '../src/schemas/envelope.ts';
+import { ResearchArtifactSchema } from '../src/schemas/research.ts';
 import { ResolveResultSchema } from '../src/schemas/resolve.ts';
 import { createJsonClient, type HttpTransport } from '../src/wikimedia/http.ts';
 import packageJson from '../package.json' with { type: 'json' };
@@ -16,10 +20,12 @@ const offlineDeps: CommandDeps = {
   wikimedia: () => {
     throw new Error('Network access is not expected in this test.');
   },
+  cache: () => null,
+  now: () => FIXED_NOW,
 };
 
 function depsFor(transport: HttpTransport): CommandDeps {
-  return { wikimedia: () => createJsonClient({ transport, sleep: async () => {} }) };
+  return { wikimedia: () => createJsonClient({ transport, sleep: async () => {} }), cache: () => null, now: () => FIXED_NOW };
 }
 
 async function run(argv: string[], deps: CommandDeps = offlineDeps) {
@@ -101,14 +107,10 @@ describe('input validation', () => {
     });
   });
 
-  it.each([
-    ['research', ['--topic', 'Pilates', '--lang', 'en', '--langs', 'en,uk', '--start', '2024-01', '--end', '2024-12', '--no-cache']],
-    ['report', ['--research', 'output/r.json', '--conclusions', 'output/c.json']],
-  ])('validates %s input, then reports NOT_IMPLEMENTED', async (command, args) => {
-    const { exitCode, envelope } = await runJson([command, ...args]);
-    expect(exitCode).toBe(4);
-    expect(envelope).toMatchObject({ ok: false, command, error: { code: 'NOT_IMPLEMENTED' } });
-    if (!envelope.ok) expect(envelope.error.details).toHaveProperty('validatedInput');
+  it('passes valid report input to the handler, which reports a missing research file', async () => {
+    const { exitCode, envelope } = await runJson(['report', '--research', 'does-not-exist/r.json', '--conclusions', 'does-not-exist/c.json']);
+    expect(exitCode).toBe(1);
+    expect(envelope).toMatchObject({ ok: false, command: 'report', error: { code: 'INVALID_RESEARCH_FILE' } });
   });
 });
 
@@ -167,6 +169,46 @@ describe('resolve command', () => {
     );
     expect(exitCode).toBe(3);
     expect(envelope).toMatchObject({ ok: false, error: { code: 'UNEXPECTED_RESPONSE' } });
+  });
+});
+
+describe('research command', () => {
+  const wikis = {
+    en: { pages: [{ title: 'Astronomy', pageid: 1, created: '2001-01-01T00:00:00Z', langlinks: { pl: 'Astronomia' } }, { title: 'Mercury', pageid: 2, disambiguation: true }] },
+    pl: { pages: [{ title: 'Astronomia', pageid: 10, created: '2002-01-01T00:00:00Z' }] },
+  };
+  const pageviews = { 'pl.wikipedia': { Astronomia: { '2025-01-01': 5, '2025-02-01': 6 } } };
+
+  it('prints a compact summary and writes the full artifact', async () => {
+    const out = await mkdtemp(join(tmpdir(), 'wmr-cli-'));
+    try {
+      const { transport } = createFakeWikimedia({ wikis, pageviews });
+      const { exitCode, envelope } = await runJson(
+        ['research', '--article', 'en:Astronomy', '--langs', 'pl', '--start', '2025-01', '--end', '2025-02', '--out', out],
+        depsFor(transport),
+      );
+      expect(exitCode).toBe(0);
+      if (!envelope.ok) throw new Error(JSON.stringify(envelope.error));
+      expect(envelope.data).toMatchObject({
+        periodMode: 'explicit',
+        granularity: { selected: 'monthly' },
+        languages: [{ lang: 'pl', title: 'Astronomia', units: 2, counts: { observed: 2 } }],
+        analysis: { periods: [{ lang: 'pl', periodId: 'main', total: 11, averageDaily: 0.19, averageMonthly: 5.5, trend: 'insufficient_data' }] },
+      });
+      expect(JSON.stringify(envelope.data)).not.toContain('"observations"');
+      expect(envelope.limitations).toContain('Pageviews are not unique people, visitors or customers.');
+      const artifactPath = (envelope.data as { artifactPath: string }).artifactPath;
+      expect(ResearchArtifactSchema.parse(JSON.parse(await readFile(artifactPath, 'utf8'))).datasets[0]?.observations).toHaveLength(2);
+    } finally {
+      await rm(out, { recursive: true, force: true });
+    }
+  });
+
+  it('exits with 2 and returns candidates for ambiguous topics', async () => {
+    const { transport } = createFakeWikimedia({ wikis: { en: { ...wikis.en, search: { Mercury: ['Mercury', 'Astronomy'] } } } });
+    const { exitCode, envelope } = await runJson(['research', '--topic', 'Mercury', '--lang', 'en', '--langs', 'pl'], depsFor(transport));
+    expect(exitCode).toBe(2);
+    expect(envelope).toMatchObject({ ok: false, error: { code: 'AMBIGUOUS_TOPIC', details: { candidates: [{ title: 'Astronomy' }] } } });
   });
 });
 

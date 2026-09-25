@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="523.28" height="185" viewBox="0 0 523.28 185" role="img" aria-label="Перегляди в часі (Переглядів за місяць)" font-family="'Noto Sans', Arial, sans-serif">
+<title>Перегляди в часі (Переглядів за місяць)</title>
+<rect x="0" y="0" width="523.28" height="185" fill="#ffffff"/>
+<text x="0" y="7" font-size="7" font-weight="700" fill="#52514e" text-anchor="start">Перегляди в часі (Переглядів за місяць)</text>
+<line x1="21.56" y1="157" x2="504.39" y2="157" stroke="#b4b3ad" stroke-width="0.8" stroke-linecap="round"/>
+<text x="16.56" y="159.3" font-size="6.5" font-weight="400" fill="#8a8984" text-anchor="end">0</text>
+<line x1="21.56" y1="112" x2="504.39" y2="112" stroke="#e6e5e1" stroke-width="0.5" stroke-linecap="round"/>
+<text x="16.56" y="114.3" font-size="6.5" font-weight="400" fill="#8a8984" text-anchor="end">2 000</text>
+<line x1="21.56" y1="67" x2="504.39" y2="67" stroke="#e6e5e1" stroke-width="0.5" stroke-linecap="round"/>
+<text x="16.56" y="69.3" font-size="6.5" font-weight="400" fill="#8a8984" text-anchor="end">4 000</text>
+<line x1="21.56" y1="22" x2="504.39" y2="22" stroke="#e6e5e1" stroke-width="0.5" stroke-linecap="round"/>
+<text x="16.56" y="24.3" font-size="6.5" font-weight="400" fill="#8a8984" text-anchor="end">6 000</text>
+<text x="139.77" y="18" font-size="6.5" font-weight="400" fill="#52514e" text-anchor="middle">2024-01-01 – 2024-12-31</text>
+<line x1="21.56" y1="157" x2="21.56" y2="159.5" stroke="#b4b3ad" stroke-width="0.5" stroke-linecap="round"/>
+<text x="21.56" y="166" font-size="6.5" font-weight="400" fill="#8a8984" text-anchor="start">2024-01</text>
+<line x1="86.04" y1="157" x2="86.04" y2="159.5" stroke="#b4b3ad" stroke-width="0.5" stroke-linecap="round"/>
+<text x="86.04" y="166" font-size="6.5" font-weight="400" fill="#8a8984" text-anchor="middle">2024-04</text>
+<line x1="150.52" y1="157" x2="150.52" y2="159.5" stroke="#b4b3ad" stroke-width="0.5" stroke-linecap="round"/>
+<text x="150.52" y="166" font-size="6.5" font-weight="400" fill="#8a8984" text-anchor="middle">2024-07</text>
+<line x1="214.99" y1="157" x2="214.99" y2="159.5" stroke="#b4b3ad" stroke-width="0.5" stroke-linecap="round"/>
+<text x="214.99" y="166" font-size="6.5" font-weight="400" fill="#8a8984" text-anchor="middle">2024-10</text>
+<polyline points="21.56,73.75 43.05,84.86 64.55,108.85 86.04,107.14 107.53,111.59 129.02,135.42 150.52,142.67 172.01,140.03 193.5,51.54 214.99,117.04 236.48,117.72 257.98,120.23" fill="none" stroke="#2a78d6" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="21.56" cy="73.75" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="43.05" cy="84.86" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="64.55" cy="108.85" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="86.04" cy="107.14" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="107.53" cy="111.59" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="129.02" cy="135.42" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="150.52" cy="142.67" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="172.01" cy="140.03" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="193.5" cy="51.54" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="193.5" cy="51.54" r="3.8" fill="none" stroke="#0b0b0b" stroke-width="0.8"/>
+<circle cx="214.99" cy="117.04" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="236.48" cy="117.72" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="257.98" cy="120.23" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<polyline points="21.56,88.08 43.05,94.43 64.55,101.29 86.04,105.5 107.53,99.04 129.02,112.88 150.52,123.38 172.01,121.72 193.5,100.3 214.99,106.28 236.48,110.76 257.98,114.29" fill="none" stroke="#eb6834" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="21.56" cy="88.08" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="43.05" cy="94.43" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="64.55" cy="101.29" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="86.04" cy="105.5" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="107.53" cy="99.04" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="129.02" cy="112.88" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="150.52" cy="123.38" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="172.01" cy="121.72" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="193.5" cy="100.3" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="214.99" cy="106.28" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="236.48" cy="110.76" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="257.98" cy="114.29" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<text x="386.18" y="18" font-size="6.5" font-weight="400" fill="#52514e" text-anchor="middle">2025-01-01 – 2025-12-31</text>
+<line x1="267.98" y1="157" x2="267.98" y2="159.5" stroke="#b4b3ad" stroke-width="0.5" stroke-linecap="round"/>
+<text x="267.98" y="166" font-size="6.5" font-weight="400" fill="#8a8984" text-anchor="start">2025-01</text>
+<line x1="332.45" y1="157" x2="332.45" y2="159.5" stroke="#b4b3ad" stroke-width="0.5" stroke-linecap="round"/>
+<text x="332.45" y="166" font-size="6.5" font-weight="400" fill="#8a8984" text-anchor="middle">2025-04</text>
+<line x1="396.93" y1="157" x2="396.93" y2="159.5" stroke="#b4b3ad" stroke-width="0.5" stroke-linecap="round"/>
+<text x="396.93" y="166" font-size="6.5" font-weight="400" fill="#8a8984" text-anchor="middle">2025-07</text>
+<line x1="461.41" y1="157" x2="461.41" y2="159.5" stroke="#b4b3ad" stroke-width="0.5" stroke-linecap="round"/>
+<text x="461.41" y="166" font-size="6.5" font-weight="400" fill="#8a8984" text-anchor="middle">2025-10</text>
+<polyline points="267.98,121.94 289.47,127.84 310.96,132.97 332.45,134.07 353.94,139.25 375.44,148.88 396.93,150.14 418.42,148.56 439.91,120.06 461.41,142.71 482.9,144.47 504.39,143" fill="none" stroke="#2a78d6" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="267.98" cy="121.94" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="289.47" cy="127.84" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="310.96" cy="132.97" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="332.45" cy="134.07" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="353.94" cy="139.25" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="375.44" cy="148.88" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="396.93" cy="150.14" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="418.42" cy="148.56" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="439.91" cy="120.06" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="461.41" cy="142.71" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="482.9" cy="144.47" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="504.39" cy="143" r="1.6" fill="#2a78d6" stroke="#ffffff" stroke-width="0.5"/>
+<polyline points="267.98,107.64 289.47,114.34 310.96,111.75 332.45,128.6 353.94,129.98 375.44,132.54 396.93,134.5 418.42,132.27 439.91,110.34 461.41,129.78 482.9,70.49 504.39,123.63" fill="none" stroke="#eb6834" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="267.98" cy="107.64" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="289.47" cy="114.34" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="310.96" cy="111.75" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="332.45" cy="128.6" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="353.94" cy="129.98" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="375.44" cy="132.54" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="396.93" cy="134.5" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="418.42" cy="132.27" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="439.91" cy="110.34" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="461.41" cy="129.78" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="482.9" cy="70.49" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<circle cx="482.9" cy="70.49" r="3.8" fill="none" stroke="#0b0b0b" stroke-width="0.8"/>
+<circle cx="504.39" cy="123.63" r="1.6" fill="#eb6834" stroke="#ffffff" stroke-width="0.5"/>
+<line x1="505.89" y1="123.63" x2="508.89" y2="123.63" stroke="#b4b3ad" stroke-width="0.5" stroke-linecap="round"/>
+<text x="510.39" y="126.03" font-size="7" font-weight="700" fill="#0b0b0b" text-anchor="start">pl</text>
+<line x1="505.89" y1="143" x2="508.89" y2="143" stroke="#b4b3ad" stroke-width="0.5" stroke-linecap="round"/>
+<text x="510.39" y="145.41" font-size="7" font-weight="700" fill="#0b0b0b" text-anchor="start">uk</text>
+<line x1="0" y1="179.7" x2="12" y2="179.7" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
+<text x="15" y="182" font-size="7" font-weight="400" fill="#52514e" text-anchor="start">uk · Астрономія</text>
+<line x1="79.77" y1="179.7" x2="91.77" y2="179.7" stroke="#eb6834" stroke-width="2" stroke-linecap="round"/>
+<text x="94.77" y="182" font-size="7" font-weight="400" fill="#52514e" text-anchor="start">pl · Astronomia</text>
+<circle cx="160.58" cy="179.7" r="3.5" fill="none" stroke="#0b0b0b" stroke-width="0.8"/>
+<text x="167.58" y="182" font-size="7" font-weight="400" fill="#52514e" text-anchor="start">виявлений сплеск</text>
+</svg>

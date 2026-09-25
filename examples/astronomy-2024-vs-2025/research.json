@@ -1,0 +1,1683 @@
+{
+  "format": 2,
+  "id": "73b5a58c3327",
+  "generatedAt": "2026-09-25T19:55:19.392Z",
+  "tool": {
+    "name": "wikipedia-market-research",
+    "version": "0.1.0"
+  },
+  "request": {
+    "subject": {
+      "kind": "article",
+      "lang": "en",
+      "title": "Astronomy"
+    },
+    "languages": [
+      "uk",
+      "pl"
+    ],
+    "periodMode": "comparisons",
+    "requestedGranularity": "auto",
+    "useCache": true
+  },
+  "plan": {
+    "today": "2026-09-25",
+    "periods": [
+      {
+        "id": "compare-1",
+        "start": "2024-01-01",
+        "end": "2024-12-31"
+      },
+      {
+        "id": "compare-2",
+        "start": "2025-01-01",
+        "end": "2025-12-31"
+      }
+    ],
+    "granularity": "monthly",
+    "granularityReason": "All periods cover whole calendar months."
+  },
+  "resolution": {
+    "topic": "Astronomy",
+    "status": "resolved",
+    "reason": "exact_title",
+    "sourceLanguage": "en",
+    "source": {
+      "lang": "en",
+      "title": "Astronomy",
+      "pageId": 50650,
+      "url": "https://en.wikipedia.org/wiki/Astronomy",
+      "description": "Scientific study of celestial objects",
+      "wikidataId": "Q333",
+      "normalizedFrom": null,
+      "redirectedFrom": null,
+      "redirectFragment": null
+    },
+    "articles": [
+      {
+        "lang": "uk",
+        "edition": {
+          "requestedCode": "uk",
+          "code": "uk",
+          "name": "Ukrainian",
+          "autonym": "українська",
+          "url": "https://uk.wikipedia.org",
+          "closed": false
+        },
+        "status": "verified",
+        "via": "language_link",
+        "title": "Астрономія",
+        "pageId": 827,
+        "url": "https://uk.wikipedia.org/wiki/%D0%90%D1%81%D1%82%D1%80%D0%BE%D0%BD%D0%BE%D0%BC%D1%96%D1%8F",
+        "wikidataId": "Q333",
+        "redirectedFrom": null
+      },
+      {
+        "lang": "pl",
+        "edition": {
+          "requestedCode": "pl",
+          "code": "pl",
+          "name": "Polish",
+          "autonym": "polski",
+          "url": "https://pl.wikipedia.org",
+          "closed": false
+        },
+        "status": "verified",
+        "via": "language_link",
+        "title": "Astronomia",
+        "pageId": 2221092,
+        "url": "https://pl.wikipedia.org/wiki/Astronomia",
+        "wikidataId": "Q333",
+        "redirectedFrom": null
+      }
+    ],
+    "missingLanguages": [],
+    "candidates": [
+      {
+        "lang": "en",
+        "title": "History of astronomy",
+        "pageId": 14021,
+        "url": "https://en.wikipedia.org/wiki/History_of_astronomy",
+        "description": null
+      },
+      {
+        "lang": "en",
+        "title": "Sun",
+        "pageId": 26751,
+        "url": "https://en.wikipedia.org/wiki/Sun",
+        "description": "Star at the centre of the Solar System"
+      },
+      {
+        "lang": "en",
+        "title": "Epoch (astronomy)",
+        "pageId": 200006,
+        "url": "https://en.wikipedia.org/wiki/Epoch_(astronomy)",
+        "description": "Moment in time used as a reference point in astronomy"
+      },
+      {
+        "lang": "en",
+        "title": "Video astronomy",
+        "pageId": 1844297,
+        "url": "https://en.wikipedia.org/wiki/Video_astronomy",
+        "description": null
+      },
+      {
+        "lang": "en",
+        "title": "Radio astronomy",
+        "pageId": 82961,
+        "url": "https://en.wikipedia.org/wiki/Radio_astronomy",
+        "description": "Subfield of astronomy that studies celestial objects at radio frequencies"
+      }
+    ],
+    "nextStep": "Use the verified articles. Confirm the source article matches the topic the user means. If a candidate fits better, run resolve again with --topic set to that exact title."
+  },
+  "datasets": [
+    {
+      "lang": "uk",
+      "project": "uk.wikipedia",
+      "title": "Астрономія",
+      "pageId": 827,
+      "url": "https://uk.wikipedia.org/wiki/%D0%90%D1%81%D1%82%D1%80%D0%BE%D0%BD%D0%BE%D0%BC%D1%96%D1%8F",
+      "wikidataId": "Q333",
+      "createdAt": "2004-02-26T16:27:52Z",
+      "creationSource": "mediawiki_first_revision",
+      "granularity": "monthly",
+      "agent": "user",
+      "access": "all-access",
+      "publishedThrough": "2026-08-31",
+      "requests": [
+        {
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/uk.wikipedia/all-access/user/%D0%90%D1%81%D1%82%D1%80%D0%BE%D0%BD%D0%BE%D0%BC%D1%96%D1%8F/monthly/20240101/20241231",
+          "outcome": "ok",
+          "rows": 12,
+          "cache": "hit",
+          "fetchedAt": "2026-09-25T19:24:44.413Z",
+          "error": null
+        },
+        {
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/uk.wikipedia/all-access/user/%D0%90%D1%81%D1%82%D1%80%D0%BE%D0%BD%D0%BE%D0%BC%D1%96%D1%8F/monthly/20250101/20251231",
+          "outcome": "ok",
+          "rows": 12,
+          "cache": "hit",
+          "fetchedAt": "2026-09-25T18:24:35.740Z",
+          "error": null
+        }
+      ],
+      "observations": [
+        {
+          "period": "2024-01-01",
+          "views": 3700,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-02-01",
+          "views": 3206,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-03-01",
+          "views": 2140,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-04-01",
+          "views": 2216,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-05-01",
+          "views": 2018,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-06-01",
+          "views": 959,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-07-01",
+          "views": 637,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-08-01",
+          "views": 754,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-09-01",
+          "views": 4687,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-10-01",
+          "views": 1776,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-11-01",
+          "views": 1746,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-12-01",
+          "views": 1634,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-01-01",
+          "views": 1558,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-02-01",
+          "views": 1296,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-03-01",
+          "views": 1068,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-04-01",
+          "views": 1019,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-05-01",
+          "views": 789,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-06-01",
+          "views": 361,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-07-01",
+          "views": 305,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-08-01",
+          "views": 375,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-09-01",
+          "views": 1642,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-10-01",
+          "views": 635,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-11-01",
+          "views": 557,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-12-01",
+          "views": 622,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        }
+      ],
+      "quality": {
+        "counts": {
+          "observed": 24,
+          "zero_omitted": 0,
+          "before_creation": 0,
+          "unavailable": 0,
+          "incomplete": 0,
+          "api_error": 0
+        },
+        "uncertain": 0,
+        "byPeriod": [
+          {
+            "periodId": "compare-1",
+            "units": 12,
+            "expected": 12,
+            "counted": 12,
+            "coverage": 1,
+            "counts": {
+              "observed": 12,
+              "zero_omitted": 0,
+              "before_creation": 0,
+              "unavailable": 0,
+              "incomplete": 0,
+              "api_error": 0
+            }
+          },
+          {
+            "periodId": "compare-2",
+            "units": 12,
+            "expected": 12,
+            "counted": 12,
+            "coverage": 1,
+            "counts": {
+              "observed": 12,
+              "zero_omitted": 0,
+              "before_creation": 0,
+              "unavailable": 0,
+              "incomplete": 0,
+              "api_error": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "lang": "pl",
+      "project": "pl.wikipedia",
+      "title": "Astronomia",
+      "pageId": 2221092,
+      "url": "https://pl.wikipedia.org/wiki/Astronomia",
+      "wikidataId": "Q333",
+      "createdAt": "2002-09-13T22:14:35Z",
+      "creationSource": "mediawiki_first_revision",
+      "granularity": "monthly",
+      "agent": "user",
+      "access": "all-access",
+      "publishedThrough": "2026-08-31",
+      "requests": [
+        {
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/pl.wikipedia/all-access/user/Astronomia/monthly/20240101/20241231",
+          "outcome": "ok",
+          "rows": 12,
+          "cache": "hit",
+          "fetchedAt": "2026-09-25T19:24:44.518Z",
+          "error": null
+        },
+        {
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/pl.wikipedia/all-access/user/Astronomia/monthly/20250101/20251231",
+          "outcome": "ok",
+          "rows": 12,
+          "cache": "hit",
+          "fetchedAt": "2026-09-25T18:24:36.642Z",
+          "error": null
+        }
+      ],
+      "observations": [
+        {
+          "period": "2024-01-01",
+          "views": 3063,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-02-01",
+          "views": 2781,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-03-01",
+          "views": 2476,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-04-01",
+          "views": 2289,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-05-01",
+          "views": 2576,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-06-01",
+          "views": 1961,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-07-01",
+          "views": 1494,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-08-01",
+          "views": 1568,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-09-01",
+          "views": 2520,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-10-01",
+          "views": 2254,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-11-01",
+          "views": 2055,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2024-12-01",
+          "views": 1898,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-01-01",
+          "views": 2194,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-02-01",
+          "views": 1896,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-03-01",
+          "views": 2011,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-04-01",
+          "views": 1262,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-05-01",
+          "views": 1201,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-06-01",
+          "views": 1087,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-07-01",
+          "views": 1000,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-08-01",
+          "views": 1099,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-09-01",
+          "views": 2074,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-10-01",
+          "views": 1210,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-11-01",
+          "views": 3845,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        },
+        {
+          "period": "2025-12-01",
+          "views": 1483,
+          "status": "observed",
+          "certainty": "established",
+          "reason": "Returned by the Wikimedia pageviews API."
+        }
+      ],
+      "quality": {
+        "counts": {
+          "observed": 24,
+          "zero_omitted": 0,
+          "before_creation": 0,
+          "unavailable": 0,
+          "incomplete": 0,
+          "api_error": 0
+        },
+        "uncertain": 0,
+        "byPeriod": [
+          {
+            "periodId": "compare-1",
+            "units": 12,
+            "expected": 12,
+            "counted": 12,
+            "coverage": 1,
+            "counts": {
+              "observed": 12,
+              "zero_omitted": 0,
+              "before_creation": 0,
+              "unavailable": 0,
+              "incomplete": 0,
+              "api_error": 0
+            }
+          },
+          {
+            "periodId": "compare-2",
+            "units": 12,
+            "expected": 12,
+            "counted": 12,
+            "coverage": 1,
+            "counts": {
+              "observed": 12,
+              "zero_omitted": 0,
+              "before_creation": 0,
+              "unavailable": 0,
+              "incomplete": 0,
+              "api_error": 0
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "unavailableLanguages": [],
+  "warnings": [
+    {
+      "code": "SPIKES_DETECTED",
+      "message": "1 unusual spike(s) (uk, period compare-1); largest on 2024-09-01 with 4687 views. Causes are unknown.",
+      "language": "uk"
+    },
+    {
+      "code": "SPIKES_DETECTED",
+      "message": "1 unusual spike(s) (pl, period compare-2); largest on 2025-11-01 with 3845 views. Causes are unknown.",
+      "language": "pl"
+    },
+    {
+      "code": "UNEQUAL_PERIOD_LENGTH",
+      "message": "compare-1_vs_compare-2 (366 vs 365 days): The periods have different lengths; compare average daily views, not totals, for interest intensity."
+    }
+  ],
+  "limitations": [
+    "Pageviews are not unique people, visitors or customers.",
+    "A Wikipedia language edition is not a country; readers of one edition live in many countries.",
+    "Absolute views are not directly comparable across language editions, which differ in size.",
+    "Only human traffic (agent=user, all access methods) is counted; some automated traffic may still be classified as human.",
+    "Views under former titles of renamed articles are not included.",
+    "Articles in other language editions come from Wikipedia interlanguage links; their scope may be broader or narrower than the source article.",
+    "Search candidates are ranked by Wikipedia search relevance, not by relevance to the research question.",
+    "Exactly one article per language edition is used; related articles and redirects are not aggregated.",
+    "Trend labels describe the selected period only; they are not forecasts.",
+    "Mann–Kendall p-values assume independent observations; pageviews are autocorrelated and seasonal, so p-values are approximate.",
+    "Fewer than 12 monthly points cannot separate seasonality from trend.",
+    "Spikes are flagged statistically; their causes are unknown and are not inferred.",
+    "Inferred zero-view units are included as zeros and remain uncertain.",
+    "Cross-language rankings use absolute views; language editions differ in size, so rankings do not measure relative interest."
+  ],
+  "analysis": {
+    "methodologyVersion": 1,
+    "methodology": "references/METHODOLOGY.md",
+    "languages": [
+      {
+        "lang": "uk",
+        "title": "Астрономія",
+        "url": "https://uk.wikipedia.org/wiki/%D0%90%D1%81%D1%82%D1%80%D0%BE%D0%BD%D0%BE%D0%BC%D1%96%D1%8F",
+        "wikidataId": "Q333",
+        "periods": [
+          {
+            "periodId": "compare-1",
+            "start": "2024-01-01",
+            "end": "2024-12-31",
+            "metrics": {
+              "durationDays": 366,
+              "units": {
+                "total": 12,
+                "expected": 12,
+                "counted": 12,
+                "observed": 12,
+                "inferredZero": 0,
+                "missing": 0,
+                "incomplete": 0,
+                "beforeCreation": 0
+              },
+              "coverage": 1,
+              "total": 25473,
+              "countedSum": 25473,
+              "countedDays": 366,
+              "averageDaily": 69.6,
+              "averageMonthly": 2122.75,
+              "min": {
+                "period": "2024-07-01",
+                "views": 637,
+                "inferred": false
+              },
+              "max": {
+                "period": "2024-09-01",
+                "views": 4687,
+                "inferred": false
+              },
+              "largestUnitShare": 0.184,
+              "nullReasons": {}
+            },
+            "trend": {
+              "direction": "no_clear_trend",
+              "basis": "monthly",
+              "points": 12,
+              "droppedBlocks": 0,
+              "slopePerPoint": -134.6,
+              "slopeSpanPercentOfMedian": -78.05,
+              "halfMedianChangePercent": -22.41,
+              "robustCv": 0.4912,
+              "mannKendall": {
+                "s": -28,
+                "pValue": 0.062869,
+                "method": "exact"
+              },
+              "robustToSpikes": null,
+              "issues": [],
+              "explanation": "No consistent monotonic trend: Mann–Kendall p = 0.0629, Theil–Sen slope over the span -78% of the median level, half-median change -22.4%, robust CV 0.49 over 12 months."
+            },
+            "anomalies": {
+              "method": "rolling_median_mad",
+              "checked": true,
+              "notCheckedReason": null,
+              "anomalies": [
+                {
+                  "period": "2024-09-01",
+                  "views": 4687,
+                  "baselineMedian": 1746,
+                  "baselineSpread": 584.14,
+                  "threshold": 4666.72,
+                  "ratioToBaseline": 2.68,
+                  "shareOfCountedSum": 0.184,
+                  "reason": "4687 views exceeds the threshold 4666.7 (median 1746 of 9 neighbouring months + 5 × robust spread 584.1) and is 2.7× the median."
+                }
+              ],
+              "countedSumExcludingAnomalies": 20786
+            }
+          },
+          {
+            "periodId": "compare-2",
+            "start": "2025-01-01",
+            "end": "2025-12-31",
+            "metrics": {
+              "durationDays": 365,
+              "units": {
+                "total": 12,
+                "expected": 12,
+                "counted": 12,
+                "observed": 12,
+                "inferredZero": 0,
+                "missing": 0,
+                "incomplete": 0,
+                "beforeCreation": 0
+              },
+              "coverage": 1,
+              "total": 10227,
+              "countedSum": 10227,
+              "countedDays": 365,
+              "averageDaily": 28.02,
+              "averageMonthly": 852.25,
+              "min": {
+                "period": "2025-07-01",
+                "views": 305,
+                "inferred": false
+              },
+              "max": {
+                "period": "2025-09-01",
+                "views": 1642,
+                "inferred": false
+              },
+              "largestUnitShare": 0.1606,
+              "nullReasons": {}
+            },
+            "trend": {
+              "direction": "no_clear_trend",
+              "basis": "monthly",
+              "points": 12,
+              "droppedBlocks": 0,
+              "slopePerPoint": -72.7,
+              "slopeSpanPercentOfMedian": -112.32,
+              "halfMedianChangePercent": -43.51,
+              "robustCv": 0.7163,
+              "mannKendall": {
+                "s": -26,
+                "pValue": 0.086317,
+                "method": "exact"
+              },
+              "robustToSpikes": null,
+              "issues": [],
+              "explanation": "No consistent monotonic trend: Mann–Kendall p = 0.0863, Theil–Sen slope over the span -112.3% of the median level, half-median change -43.5%, robust CV 0.72 over 12 months."
+            },
+            "anomalies": {
+              "method": "rolling_median_mad",
+              "checked": true,
+              "notCheckedReason": null,
+              "anomalies": [],
+              "countedSumExcludingAnomalies": 10227
+            }
+          }
+        ]
+      },
+      {
+        "lang": "pl",
+        "title": "Astronomia",
+        "url": "https://pl.wikipedia.org/wiki/Astronomia",
+        "wikidataId": "Q333",
+        "periods": [
+          {
+            "periodId": "compare-1",
+            "start": "2024-01-01",
+            "end": "2024-12-31",
+            "metrics": {
+              "durationDays": 366,
+              "units": {
+                "total": 12,
+                "expected": 12,
+                "counted": 12,
+                "observed": 12,
+                "inferredZero": 0,
+                "missing": 0,
+                "incomplete": 0,
+                "beforeCreation": 0
+              },
+              "coverage": 1,
+              "total": 26935,
+              "countedSum": 26935,
+              "countedDays": 366,
+              "averageDaily": 73.59,
+              "averageMonthly": 2244.58,
+              "min": {
+                "period": "2024-07-01",
+                "views": 1494,
+                "inferred": false
+              },
+              "max": {
+                "period": "2024-01-01",
+                "views": 3063,
+                "inferred": false
+              },
+              "largestUnitShare": 0.1137,
+              "nullReasons": {}
+            },
+            "trend": {
+              "direction": "decreasing",
+              "basis": "monthly",
+              "points": 12,
+              "droppedBlocks": 0,
+              "slopePerPoint": -93.37,
+              "slopeSpanPercentOfMedian": -45.22,
+              "halfMedianChangePercent": -21.75,
+              "robustCv": 0.2007,
+              "mannKendall": {
+                "s": -34,
+                "pValue": 0.02098,
+                "method": "exact"
+              },
+              "robustToSpikes": true,
+              "issues": [],
+              "explanation": "Consistent monotonic decrease: Mann–Kendall p = 0.021, Theil–Sen slope over the span -45.2% of the median level, half-median change -21.8%, robust CV 0.2 over 12 months."
+            },
+            "anomalies": {
+              "method": "rolling_median_mad",
+              "checked": true,
+              "notCheckedReason": null,
+              "anomalies": [],
+              "countedSumExcludingAnomalies": 26935
+            }
+          },
+          {
+            "periodId": "compare-2",
+            "start": "2025-01-01",
+            "end": "2025-12-31",
+            "metrics": {
+              "durationDays": 365,
+              "units": {
+                "total": 12,
+                "expected": 12,
+                "counted": 12,
+                "observed": 12,
+                "inferredZero": 0,
+                "missing": 0,
+                "incomplete": 0,
+                "beforeCreation": 0
+              },
+              "coverage": 1,
+              "total": 20362,
+              "countedSum": 20362,
+              "countedDays": 365,
+              "averageDaily": 55.79,
+              "averageMonthly": 1696.83,
+              "min": {
+                "period": "2025-07-01",
+                "views": 1000,
+                "inferred": false
+              },
+              "max": {
+                "period": "2025-11-01",
+                "views": 3845,
+                "inferred": false
+              },
+              "largestUnitShare": 0.1888,
+              "nullReasons": {}
+            },
+            "trend": {
+              "direction": "no_clear_trend",
+              "basis": "monthly",
+              "points": 12,
+              "droppedBlocks": 0,
+              "slopePerPoint": -37.38,
+              "slopeSpanPercentOfMedian": -29.95,
+              "halfMedianChangePercent": -14.72,
+              "robustCv": 0.3554,
+              "mannKendall": {
+                "s": -6,
+                "pValue": 0.737306,
+                "method": "exact"
+              },
+              "robustToSpikes": null,
+              "issues": [],
+              "explanation": "No consistent monotonic trend: Mann–Kendall p = 0.7373, Theil–Sen slope over the span -30% of the median level, half-median change -14.7%, robust CV 0.36 over 12 months."
+            },
+            "anomalies": {
+              "method": "rolling_median_mad",
+              "checked": true,
+              "notCheckedReason": null,
+              "anomalies": [
+                {
+                  "period": "2025-11-01",
+                  "views": 3845,
+                  "baselineMedian": 1201,
+                  "baselineSpread": 169.02,
+                  "threshold": 2046.08,
+                  "ratioToBaseline": 3.2,
+                  "shareOfCountedSum": 0.1888,
+                  "reason": "3845 views exceeds the threshold 2046.1 (median 1201 of 7 neighbouring months + 5 × robust spread 169) and is 3.2× the median."
+                }
+              ],
+              "countedSumExcludingAnomalies": 16517
+            }
+          }
+        ]
+      }
+    ],
+    "comparisons": [
+      {
+        "id": "compare-1_vs_compare-2",
+        "lang": "uk",
+        "baseline": {
+          "periodId": "compare-1",
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "durationDays": 366,
+          "total": 25473,
+          "averageDaily": 69.6,
+          "coverage": 1
+        },
+        "current": {
+          "periodId": "compare-2",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "durationDays": 365,
+          "total": 10227,
+          "averageDaily": 28.02,
+          "coverage": 1
+        },
+        "absoluteChange": -15246,
+        "percentChange": -59.85,
+        "averageDailyChange": -41.58,
+        "averageDailyPercentChange": -59.74,
+        "equalDuration": false,
+        "primaryMeasure": "averageDaily",
+        "status": "comparable_with_limitations",
+        "issues": [
+          "UNEQUAL_DURATION",
+          "SPIKES_PRESENT"
+        ],
+        "nullReasons": {}
+      },
+      {
+        "id": "compare-1_vs_compare-2",
+        "lang": "pl",
+        "baseline": {
+          "periodId": "compare-1",
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "durationDays": 366,
+          "total": 26935,
+          "averageDaily": 73.59,
+          "coverage": 1
+        },
+        "current": {
+          "periodId": "compare-2",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "durationDays": 365,
+          "total": 20362,
+          "averageDaily": 55.79,
+          "coverage": 1
+        },
+        "absoluteChange": -6573,
+        "percentChange": -24.4,
+        "averageDailyChange": -17.81,
+        "averageDailyPercentChange": -24.2,
+        "equalDuration": false,
+        "primaryMeasure": "averageDaily",
+        "status": "comparable_with_limitations",
+        "issues": [
+          "UNEQUAL_DURATION",
+          "SPIKES_PRESENT"
+        ],
+        "nullReasons": {}
+      }
+    ],
+    "crossLanguage": [
+      {
+        "periodId": "compare-1",
+        "ranking": [
+          {
+            "lang": "pl",
+            "title": "Astronomia",
+            "averageDaily": 73.59,
+            "total": 26935,
+            "trend": "decreasing"
+          },
+          {
+            "lang": "uk",
+            "title": "Астрономія",
+            "averageDaily": 69.6,
+            "total": 25473,
+            "trend": "no_clear_trend"
+          }
+        ]
+      },
+      {
+        "periodId": "compare-2",
+        "ranking": [
+          {
+            "lang": "pl",
+            "title": "Astronomia",
+            "averageDaily": 55.79,
+            "total": 20362,
+            "trend": "no_clear_trend"
+          },
+          {
+            "lang": "uk",
+            "title": "Астрономія",
+            "averageDaily": 28.02,
+            "total": 10227,
+            "trend": "no_clear_trend"
+          }
+        ]
+      }
+    ],
+    "metrics": {
+      "uk.compare-1.total": {
+        "value": 25473,
+        "unit": "views",
+        "lang": "uk",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "uk.compare-1.countedSum": {
+        "value": 25473,
+        "unit": "views",
+        "lang": "uk",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "uk.compare-1.averageDaily": {
+        "value": 69.6,
+        "unit": "views_per_day",
+        "lang": "uk",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "uk.compare-1.averageMonthly": {
+        "value": 2122.75,
+        "unit": "views_per_month",
+        "lang": "uk",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "uk.compare-1.min": {
+        "value": 637,
+        "unit": "views",
+        "lang": "uk",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "uk.compare-1.max": {
+        "value": 4687,
+        "unit": "views",
+        "lang": "uk",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "uk.compare-1.largestUnitShare": {
+        "value": 0.184,
+        "unit": "ratio",
+        "lang": "uk",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "uk.compare-1.coverage": {
+        "value": 1,
+        "unit": "ratio",
+        "lang": "uk",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "uk.compare-1.durationDays": {
+        "value": 366,
+        "unit": "days",
+        "lang": "uk",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "uk.compare-1.observedUnits": {
+        "value": 12,
+        "unit": "count",
+        "lang": "uk",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "uk.compare-1.inferredZeroUnits": {
+        "value": 0,
+        "unit": "count",
+        "lang": "uk",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "uk.compare-1.missingUnits": {
+        "value": 0,
+        "unit": "count",
+        "lang": "uk",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "uk.compare-1.trend.direction": {
+        "value": "no_clear_trend",
+        "unit": "label",
+        "lang": "uk",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "uk.compare-1.trend.slopeSpanPercentOfMedian": {
+        "value": -78.05,
+        "unit": "percent",
+        "lang": "uk",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "uk.compare-1.trend.halfMedianChangePercent": {
+        "value": -22.41,
+        "unit": "percent",
+        "lang": "uk",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "uk.compare-1.trend.pValue": {
+        "value": 0.062869,
+        "unit": "p_value",
+        "lang": "uk",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "uk.compare-1.anomalies.count": {
+        "value": 1,
+        "unit": "count",
+        "lang": "uk",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "uk.compare-2.total": {
+        "value": 10227,
+        "unit": "views",
+        "lang": "uk",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "uk.compare-2.countedSum": {
+        "value": 10227,
+        "unit": "views",
+        "lang": "uk",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "uk.compare-2.averageDaily": {
+        "value": 28.02,
+        "unit": "views_per_day",
+        "lang": "uk",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "uk.compare-2.averageMonthly": {
+        "value": 852.25,
+        "unit": "views_per_month",
+        "lang": "uk",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "uk.compare-2.min": {
+        "value": 305,
+        "unit": "views",
+        "lang": "uk",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "uk.compare-2.max": {
+        "value": 1642,
+        "unit": "views",
+        "lang": "uk",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "uk.compare-2.largestUnitShare": {
+        "value": 0.1606,
+        "unit": "ratio",
+        "lang": "uk",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "uk.compare-2.coverage": {
+        "value": 1,
+        "unit": "ratio",
+        "lang": "uk",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "uk.compare-2.durationDays": {
+        "value": 365,
+        "unit": "days",
+        "lang": "uk",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "uk.compare-2.observedUnits": {
+        "value": 12,
+        "unit": "count",
+        "lang": "uk",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "uk.compare-2.inferredZeroUnits": {
+        "value": 0,
+        "unit": "count",
+        "lang": "uk",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "uk.compare-2.missingUnits": {
+        "value": 0,
+        "unit": "count",
+        "lang": "uk",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "uk.compare-2.trend.direction": {
+        "value": "no_clear_trend",
+        "unit": "label",
+        "lang": "uk",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "uk.compare-2.trend.slopeSpanPercentOfMedian": {
+        "value": -112.32,
+        "unit": "percent",
+        "lang": "uk",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "uk.compare-2.trend.halfMedianChangePercent": {
+        "value": -43.51,
+        "unit": "percent",
+        "lang": "uk",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "uk.compare-2.trend.pValue": {
+        "value": 0.086317,
+        "unit": "p_value",
+        "lang": "uk",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "uk.compare-2.anomalies.count": {
+        "value": 0,
+        "unit": "count",
+        "lang": "uk",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "pl.compare-1.total": {
+        "value": 26935,
+        "unit": "views",
+        "lang": "pl",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "pl.compare-1.countedSum": {
+        "value": 26935,
+        "unit": "views",
+        "lang": "pl",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "pl.compare-1.averageDaily": {
+        "value": 73.59,
+        "unit": "views_per_day",
+        "lang": "pl",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "pl.compare-1.averageMonthly": {
+        "value": 2244.58,
+        "unit": "views_per_month",
+        "lang": "pl",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "pl.compare-1.min": {
+        "value": 1494,
+        "unit": "views",
+        "lang": "pl",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "pl.compare-1.max": {
+        "value": 3063,
+        "unit": "views",
+        "lang": "pl",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "pl.compare-1.largestUnitShare": {
+        "value": 0.1137,
+        "unit": "ratio",
+        "lang": "pl",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "pl.compare-1.coverage": {
+        "value": 1,
+        "unit": "ratio",
+        "lang": "pl",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "pl.compare-1.durationDays": {
+        "value": 366,
+        "unit": "days",
+        "lang": "pl",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "pl.compare-1.observedUnits": {
+        "value": 12,
+        "unit": "count",
+        "lang": "pl",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "pl.compare-1.inferredZeroUnits": {
+        "value": 0,
+        "unit": "count",
+        "lang": "pl",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "pl.compare-1.missingUnits": {
+        "value": 0,
+        "unit": "count",
+        "lang": "pl",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "pl.compare-1.trend.direction": {
+        "value": "decreasing",
+        "unit": "label",
+        "lang": "pl",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "pl.compare-1.trend.slopeSpanPercentOfMedian": {
+        "value": -45.22,
+        "unit": "percent",
+        "lang": "pl",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "pl.compare-1.trend.halfMedianChangePercent": {
+        "value": -21.75,
+        "unit": "percent",
+        "lang": "pl",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "pl.compare-1.trend.pValue": {
+        "value": 0.02098,
+        "unit": "p_value",
+        "lang": "pl",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "pl.compare-1.anomalies.count": {
+        "value": 0,
+        "unit": "count",
+        "lang": "pl",
+        "periodId": "compare-1",
+        "comparisonId": null
+      },
+      "pl.compare-2.total": {
+        "value": 20362,
+        "unit": "views",
+        "lang": "pl",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "pl.compare-2.countedSum": {
+        "value": 20362,
+        "unit": "views",
+        "lang": "pl",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "pl.compare-2.averageDaily": {
+        "value": 55.79,
+        "unit": "views_per_day",
+        "lang": "pl",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "pl.compare-2.averageMonthly": {
+        "value": 1696.83,
+        "unit": "views_per_month",
+        "lang": "pl",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "pl.compare-2.min": {
+        "value": 1000,
+        "unit": "views",
+        "lang": "pl",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "pl.compare-2.max": {
+        "value": 3845,
+        "unit": "views",
+        "lang": "pl",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "pl.compare-2.largestUnitShare": {
+        "value": 0.1888,
+        "unit": "ratio",
+        "lang": "pl",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "pl.compare-2.coverage": {
+        "value": 1,
+        "unit": "ratio",
+        "lang": "pl",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "pl.compare-2.durationDays": {
+        "value": 365,
+        "unit": "days",
+        "lang": "pl",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "pl.compare-2.observedUnits": {
+        "value": 12,
+        "unit": "count",
+        "lang": "pl",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "pl.compare-2.inferredZeroUnits": {
+        "value": 0,
+        "unit": "count",
+        "lang": "pl",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "pl.compare-2.missingUnits": {
+        "value": 0,
+        "unit": "count",
+        "lang": "pl",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "pl.compare-2.trend.direction": {
+        "value": "no_clear_trend",
+        "unit": "label",
+        "lang": "pl",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "pl.compare-2.trend.slopeSpanPercentOfMedian": {
+        "value": -29.95,
+        "unit": "percent",
+        "lang": "pl",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "pl.compare-2.trend.halfMedianChangePercent": {
+        "value": -14.72,
+        "unit": "percent",
+        "lang": "pl",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "pl.compare-2.trend.pValue": {
+        "value": 0.737306,
+        "unit": "p_value",
+        "lang": "pl",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "pl.compare-2.anomalies.count": {
+        "value": 1,
+        "unit": "count",
+        "lang": "pl",
+        "periodId": "compare-2",
+        "comparisonId": null
+      },
+      "uk.compare-1_vs_compare-2.baselineTotal": {
+        "value": 25473,
+        "unit": "views",
+        "lang": "uk",
+        "periodId": null,
+        "comparisonId": "compare-1_vs_compare-2"
+      },
+      "uk.compare-1_vs_compare-2.currentTotal": {
+        "value": 10227,
+        "unit": "views",
+        "lang": "uk",
+        "periodId": null,
+        "comparisonId": "compare-1_vs_compare-2"
+      },
+      "uk.compare-1_vs_compare-2.absoluteChange": {
+        "value": -15246,
+        "unit": "views",
+        "lang": "uk",
+        "periodId": null,
+        "comparisonId": "compare-1_vs_compare-2"
+      },
+      "uk.compare-1_vs_compare-2.percentChange": {
+        "value": -59.85,
+        "unit": "percent",
+        "lang": "uk",
+        "periodId": null,
+        "comparisonId": "compare-1_vs_compare-2"
+      },
+      "uk.compare-1_vs_compare-2.baselineAverageDaily": {
+        "value": 69.6,
+        "unit": "views_per_day",
+        "lang": "uk",
+        "periodId": null,
+        "comparisonId": "compare-1_vs_compare-2"
+      },
+      "uk.compare-1_vs_compare-2.currentAverageDaily": {
+        "value": 28.02,
+        "unit": "views_per_day",
+        "lang": "uk",
+        "periodId": null,
+        "comparisonId": "compare-1_vs_compare-2"
+      },
+      "uk.compare-1_vs_compare-2.averageDailyChange": {
+        "value": -41.58,
+        "unit": "views_per_day",
+        "lang": "uk",
+        "periodId": null,
+        "comparisonId": "compare-1_vs_compare-2"
+      },
+      "uk.compare-1_vs_compare-2.averageDailyPercentChange": {
+        "value": -59.74,
+        "unit": "percent",
+        "lang": "uk",
+        "periodId": null,
+        "comparisonId": "compare-1_vs_compare-2"
+      },
+      "uk.compare-1_vs_compare-2.status": {
+        "value": "comparable_with_limitations",
+        "unit": "label",
+        "lang": "uk",
+        "periodId": null,
+        "comparisonId": "compare-1_vs_compare-2"
+      },
+      "pl.compare-1_vs_compare-2.baselineTotal": {
+        "value": 26935,
+        "unit": "views",
+        "lang": "pl",
+        "periodId": null,
+        "comparisonId": "compare-1_vs_compare-2"
+      },
+      "pl.compare-1_vs_compare-2.currentTotal": {
+        "value": 20362,
+        "unit": "views",
+        "lang": "pl",
+        "periodId": null,
+        "comparisonId": "compare-1_vs_compare-2"
+      },
+      "pl.compare-1_vs_compare-2.absoluteChange": {
+        "value": -6573,
+        "unit": "views",
+        "lang": "pl",
+        "periodId": null,
+        "comparisonId": "compare-1_vs_compare-2"
+      },
+      "pl.compare-1_vs_compare-2.percentChange": {
+        "value": -24.4,
+        "unit": "percent",
+        "lang": "pl",
+        "periodId": null,
+        "comparisonId": "compare-1_vs_compare-2"
+      },
+      "pl.compare-1_vs_compare-2.baselineAverageDaily": {
+        "value": 73.59,
+        "unit": "views_per_day",
+        "lang": "pl",
+        "periodId": null,
+        "comparisonId": "compare-1_vs_compare-2"
+      },
+      "pl.compare-1_vs_compare-2.currentAverageDaily": {
+        "value": 55.79,
+        "unit": "views_per_day",
+        "lang": "pl",
+        "periodId": null,
+        "comparisonId": "compare-1_vs_compare-2"
+      },
+      "pl.compare-1_vs_compare-2.averageDailyChange": {
+        "value": -17.81,
+        "unit": "views_per_day",
+        "lang": "pl",
+        "periodId": null,
+        "comparisonId": "compare-1_vs_compare-2"
+      },
+      "pl.compare-1_vs_compare-2.averageDailyPercentChange": {
+        "value": -24.2,
+        "unit": "percent",
+        "lang": "pl",
+        "periodId": null,
+        "comparisonId": "compare-1_vs_compare-2"
+      },
+      "pl.compare-1_vs_compare-2.status": {
+        "value": "comparable_with_limitations",
+        "unit": "label",
+        "lang": "pl",
+        "periodId": null,
+        "comparisonId": "compare-1_vs_compare-2"
+      }
+    },
+    "limitations": [
+      "Trend labels describe the selected period only; they are not forecasts.",
+      "Mann–Kendall p-values assume independent observations; pageviews are autocorrelated and seasonal, so p-values are approximate.",
+      "Fewer than 12 monthly points cannot separate seasonality from trend.",
+      "Spikes are flagged statistically; their causes are unknown and are not inferred.",
+      "Inferred zero-view units are included as zeros and remain uncertain.",
+      "Cross-language rankings use absolute views; language editions differ in size, so rankings do not measure relative interest."
+    ]
+  },
+  "sources": [
+    "https://wikimedia.org/api/rest_v1/metrics/pageviews",
+    "https://meta.wikimedia.org/w/api.php (sitematrix)",
+    "https://uk.wikipedia.org/w/api.php",
+    "https://pl.wikipedia.org/w/api.php"
+  ]
+}

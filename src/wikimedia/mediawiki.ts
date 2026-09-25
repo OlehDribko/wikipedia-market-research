@@ -73,11 +73,14 @@ const ILLEGAL_TITLE_CHARS = /[#<>[\]|{}\u0000-\u001f\u007f]/;
 const MAX_CONTINUATIONS = 10;
 const PAGE_PROPS = { prop: 'info|pageprops|description', inprop: 'url', ppprop: 'disambiguation|wikibase_item' };
 
-function apiUrl(edition: WikipediaEdition): string {
+/** The parts of an edition needed to call its API. */
+export type EditionRef = Pick<WikipediaEdition, 'code' | 'url'>;
+
+function apiUrl(edition: EditionRef): string {
   return `${edition.url}/w/api.php`;
 }
 
-function toArticle(page: Page, edition: WikipediaEdition, url: string): ArticlePage {
+function toArticle(page: Page, edition: EditionRef, url: string): ArticlePage {
   if (page.pageid === undefined || page.canonicalurl === undefined) {
     throw new WikimediaApiError('unexpected_response', `Page "${page.title}" is missing its ID or URL in the response from ${url}.`, url, 200);
   }
@@ -98,7 +101,7 @@ function toArticle(page: Page, edition: WikipediaEdition, url: string): ArticleP
  */
 export async function lookupTitle(
   api: JsonClient,
-  edition: WikipediaEdition,
+  edition: EditionRef,
   title: string,
   options: { languageLinks?: boolean } = {},
 ): Promise<TitleLookup> {
@@ -157,7 +160,7 @@ export async function lookupTitle(
 /** Full-text search in the main namespace, in Wikipedia's relevance order. */
 export async function searchArticles(
   api: JsonClient,
-  edition: WikipediaEdition,
+  edition: EditionRef,
   query: string,
   limit: number,
 ): Promise<ArticlePage[]> {
@@ -177,4 +180,37 @@ export async function searchArticles(
     .filter((page) => !page.missing && page.ns === 0)
     .sort((a, b) => (a.index ?? Number.MAX_SAFE_INTEGER) - (b.index ?? Number.MAX_SAFE_INTEGER))
     .map((page) => toArticle(page, edition, url));
+}
+
+const RevisionResponseSchema = z.object({
+  query: z.object({
+    pages: z.array(
+      z.object({
+        pageid: z.number().int().optional(),
+        missing: z.boolean().optional(),
+        revisions: z.array(z.object({ timestamp: z.iso.datetime() })).optional(),
+      }),
+    ),
+  }),
+});
+
+/**
+ * Timestamp of the page's first revision (its creation), or null when the page or its history is unavailable.
+ * Page moves keep their history, so a renamed article reports its original creation time.
+ */
+export async function fetchFirstRevisionTimestamp(api: JsonClient, edition: EditionRef, pageId: number): Promise<string | null> {
+  const url = apiUrl(edition);
+  const data = await api.getJson(url, {
+    action: 'query',
+    format: 'json',
+    formatversion: '2',
+    pageids: String(pageId),
+    prop: 'revisions',
+    rvprop: 'timestamp',
+    rvlimit: '1',
+    rvdir: 'newer',
+  });
+  const page = parseResponse(RevisionResponseSchema, data, url).query.pages[0];
+  if (!page || page.missing || page.pageid !== pageId) return null;
+  return page.revisions?.[0]?.timestamp ?? null;
 }

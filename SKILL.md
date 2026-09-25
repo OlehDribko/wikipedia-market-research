@@ -10,8 +10,7 @@ metadata:
 
 # Wikipedia Market Research
 
-> **Development status (v0.1.0):** `resolve` works. `research` and `report` validate input but return
-> `NOT_IMPLEMENTED`. Do not present pageview results to the user yet.
+> **Development status (v0.1.0):** `resolve`, `research` (including statistics) and `report` work.
 
 ## Setup
 
@@ -63,10 +62,83 @@ that a translated title exists. If a redirect warning shows the article is broad
    - No period at all: omit these flags. The CLI uses the **last 12 completed calendar months**.
      Tell the user you assumed this.
 4. **Run `research`.** Read `warnings` and each language's data quality before interpreting anything.
-5. **Interpret.** Explain the numbers the CLI returned. Do not compute or invent new statistics.
-6. **Report (optional).** Write conclusions JSON in the user's language, then run `report`.
+   - Only `observed` values are measured.
+   - `zero_omitted` values are uncertain zeros.
+   - `unavailable`, `before_creation`, `incomplete` and `api_error` have no value. Never treat them as zero.
+   - If the command fails with `AMBIGUOUS_TOPIC`, show `error.details.candidates` to the user and retry with
+     `--article LANG:Title`.
+5. **Interpret** `data.analysis` (see "Reading results"). Do not compute or invent new statistics.
+6. **Report (optional).** Write a conclusions file in the user's language, then run `report` (see "Writing a report").
 7. **Follow-ups.** For changed parameters (languages, dates, comparisons), run `research` again with
    the new flags. Cached data is reused automatically.
+
+## Reading results
+
+`research` prints a compact `data.analysis`. The full result, with every observation and all details, is saved at
+`data.artifactPath`.
+
+- **`periods[]`:** per language and period:
+  - `total` (null if any data is missing or the period is incomplete)
+  - `averageDaily`, `averageMonthly`, `coverage`
+  - `trend`, `trendPValue`, `trendSlopeSpanPercentOfMedian`
+  - `spikes`, `largestUnitShare`
+- **`comparisons[]`:** `percentChange` (totals) and `averageDailyPercentChange` (intensity).
+  - Lead with the measure named in `primaryMeasure`. With unequal period lengths, only daily averages show changes
+    in interest intensity.
+  - `status` and `issues` say how reliable the comparison is.
+- **Trend labels:**
+  - `increasing` / `decreasing`: a consistent, statistically supported tendency within the period.
+  - `stable`: small change without large swings.
+  - `no_clear_trend`: movement without a consistent direction.
+  - `insufficient_data`: too little data to judge.
+- **`trendSlopeSpanPercentOfMedian`** is a slope relative to the median level, **not** a percentage change in views.
+  Never phrase it as "views grew by X %".
+- **Spikes:** `topSpikes` lists unusual peaks. Their causes are unknown; do not speculate. They stay included in all
+  totals.
+- **Nulls:** a null metric means it could not be calculated reliably. Say so; never estimate it.
+- **Citing:** cite numbers by metric ID following `metricIdPattern` (e.g. `uk.main.averageDaily`).
+
+Definitions, thresholds and limitations: [references/METHODOLOGY.md](references/METHODOLOGY.md).
+
+## Writing a report
+
+`report` turns a saved research file into a one-page PDF and an SVG chart. It makes no API calls and changes nothing
+in the research file. You only write a JSON file. All layout, charts, fonts and number formatting are handled by the CLI.
+
+```bash
+node scripts/wmr.ts report --research <data.artifactPath> --conclusions conclusions.json [--out report.pdf]
+```
+
+```json
+{
+  "language": "uk",
+  "headline": "One sentence, no statistics",
+  "findings": [
+    { "statement": "Перегляди за день впали на 59,74 %.", "evidence": ["uk.compare-1_vs_compare-2.averageDailyPercentChange"] }
+  ],
+  "hypotheses": [{ "hypothesis": "…", "validationIdea": "…" }],
+  "limitations": ["…"]
+}
+```
+
+Rules, checked by the CLI:
+
+- **`language`:** the user's language. It sets the report language. Built-in labels exist for `uk`, `pl` and `en`;
+  other languages use English headings unless you add `labels`.
+- **`findings`:** 1–8 findings. Each cites metric IDs that exist in the research file (see `metricIdPattern`).
+- **Numbers:**
+  - A number in a finding must equal a value of a metric that finding cites. Rounding is allowed, e.g. 59,7 or 60
+    for −59,74. Any locale format works.
+  - The headline, hypotheses and limitations may mention only years, period lengths and counts; put statistics in
+    findings.
+  - `validationIdea` may contain planning numbers.
+- **Characters:** no emoji or scripts outside Latin, Cyrillic and Greek; the font cannot render them.
+- **Fixed content:** the metric tables, the chart, the standard limitations and the data-quality summary always
+  come from the research file. You cannot change them.
+- **Errors:**
+  - `INVALID_CONCLUSIONS`: fix each item in `error.details.issues` (unknown IDs come with `suggestions`) and run
+    again.
+  - `REPORT_DOES_NOT_FIT`: shorten your text. Nothing is truncated automatically.
 
 ## Interpretation rules
 
@@ -75,5 +147,8 @@ that a translated title exists. If a redirect warning shows the article is broad
 - Absolute views are not directly comparable across language editions (edition sizes differ).
 - Use only numbers from CLI output. Every finding in a report must cite metric IDs from the research file.
 - Treat trends marked `insufficient_data` as undetermined. You may still report the factual totals.
+- Say "statistically significant" only for p < 0.05, and note that p-values are approximate for pageview data.
+- A trend over less than a year (`TREND_MAY_BE_SEASONAL`) may be seasonal. Say so.
+- Cross-language rankings compare absolute views, not relative interest.
 - Always tell the user about data-quality warnings and uncertain statuses.
 - No forecasts: describe what happened in completed periods only.
