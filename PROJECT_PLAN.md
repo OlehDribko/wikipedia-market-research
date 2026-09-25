@@ -1,0 +1,376 @@
+# Wikipedia Market Research — Project Plan
+
+Status: **Stage 2 (article resolution) — in review.** Stage 1 accepted; decisions recorded in §9.
+
+## 1. Project goal
+
+A portable [Agent Skill](https://agentskills.io/specification) that lets an AI agent analyze
+Wikipedia pageview statistics across topics and language editions, helping B2C product founders
+gauge audience interest and form hypotheses for further product validation.
+
+The deliverable is a public GitHub repository whose root is the skill directory
+`wikipedia-market-research` (valid skill name; must match the directory name).
+
+**Division of labour**
+
+| Deterministic TypeScript (CLI) | Language model (agent) |
+|---|---|
+| Article verification, redirects, language links | Understanding user intent |
+| Pageview retrieval, caching | Resolving meaningful ambiguities (choosing among candidates) |
+| Period logic, data-quality classification | Selecting research parameters (languages, dates, comparisons) |
+| All statistics | Interpreting statistical results |
+| Chart and PDF rendering | Explaining limitations, writing structured conclusions |
+
+The core skill never depends on OpenRouter or any specific model.
+
+## 2. MVP scope
+
+**In scope**
+
+1. Topic identification and validation.
+2. Wikipedia article resolution across languages — one verified article per language edition.
+3. Pageview retrieval (Wikimedia Analytics API, `agent=user`, `access=all-access`).
+4. Analysis of user-defined date ranges (exact dates or calendar months).
+   Default when the user gives no period: **the last 12 completed calendar months** — the agent must state this assumption.
+5. Cross-language comparison of absolute pageviews and trends (no normalization).
+6. Deterministic statistical trend analysis.
+7. Data-quality checks and explicit limitations.
+8. Chart generation.
+9. One-page PDF report in the user's language, including structured AI-generated conclusions.
+10. Follow-up requests with changed parameters (re-run with new flags; cache avoids refetching).
+11. Basic file-based cache.
+
+**Out of scope (MVP)**
+
+Forecasting · share-of-edition normalization · advanced/LRU cache management · permanent research
+history · geographic audience estimation · additional data sources · multiple articles per language ·
+a localization framework.
+
+**Non-negotiable interpretation rules** (enforced in `SKILL.md`, and carried in every output as `limitations`)
+
+- Pageviews ≠ unique people ≠ customers.
+- A language edition ≠ a country.
+- Absolute views across editions are not directly comparable (edition sizes differ).
+- No fabricated statistics; every number in conclusions must come from CLI output.
+- Factual comparisons use completed periods only.
+- Languages are never chosen arbitrarily: the agent derives them from the request/context or asks the user.
+
+## 3. Architecture
+
+### 3.1 Execution mechanism
+
+No bundler, no committed build output, no compile step.
+
+- Node.js **≥ 24** runs `.ts` files directly via native type stripping.
+- Entry point: `node scripts/wmr.ts <command> [flags]` (also `npm run wmr -- <command> …`).
+- Setup: `npm ci --omit=dev` installs runtime dependencies from the committed `package-lock.json`.
+- TypeScript is restricted to erasable syntax (`erasableSyntaxOnly`, `verbatimModuleSyntax`,
+  `.ts` import extensions; no enums/namespaces/parameter properties). `tsc` is used only for type checking.
+- Configuration via environment variables, documented in `.env.example`:
+  - `WMR_CONTACT` — contact URL or email placed in the Wikimedia `User-Agent`
+    (default: `https://github.com/OlehDribko/wikipedia-market-research/issues`).
+  - `WMR_CACHE_DIR` — optional cache location.
+  - `OPENROUTER_*` — harness only; never read by the skill.
+
+### 3.2 Directory layout (end state; files are created only when their stage needs them)
+
+```
+wikipedia-market-research/        ← repo root = skill directory
+├── SKILL.md                      ← agent workflow, rules, CLI usage (< 500 lines)
+├── PROJECT_PLAN.md
+├── README.md                     ← human docs: setup, development, testing
+├── LICENSE                       ← MIT
+├── .env.example
+├── package.json / package-lock.json / tsconfig.json / vitest.config.ts
+├── scripts/
+│   └── wmr.ts                    ← thin CLI entry, delegates to src/cli
+├── references/                   ← loaded on demand by the agent
+│   ├── CLI.md                    ← full command and JSON contracts
+│   └── METHODOLOGY.md            ← metrics, data-quality statuses, interpretation rules
+├── assets/                       ← report template, embedded Unicode font(s)
+├── src/
+│   ├── cli/                      ← arg parsing (node:util parseArgs), dispatch, JSON envelope, errors
+│   ├── schemas/                  ← Zod schemas: single source of truth for all contracts
+│   ├── wikimedia/                ← HTTP client, article resolution, pageview retrieval
+│   ├── periods/                  ← date ranges, granularity selection, completeness
+│   ├── quality/                  ← per-observation status classification, warnings
+│   ├── analysis/                 ← pure statistics
+│   ├── research/                 ← orchestration used by the `research` command
+│   ├── report/                   ← chart (SVG) + one-page PDF
+│   └── cache/                    ← file-based JSON cache
+├── tests/                        ← Vitest; network replaced by recorded fixtures
+└── harness/openrouter/           ← DEV-ONLY integration test harness (see 3.4)
+```
+
+### 3.3 Module responsibilities
+
+| Module | Responsibility | Must not |
+|---|---|---|
+| `cli` | Parse flags, validate with Zod, call one service, print one JSON envelope, set exit code | Contain business logic |
+| `schemas` | Zod schemas + inferred types for inputs, artifacts, conclusions, envelope | Perform I/O |
+| `wikimedia` | Axios client (User-Agent with `WMR_CONTACT`, timeout, retry/backoff on 429/5xx); MediaWiki Action API (search, redirects, disambiguation via `pageprops`, `langlinks`, first-revision timestamp); Analytics API per-article pageviews | Compute statistics or fill gaps |
+| `periods` | Parse user ranges, default period, granularity selection, last complete period, data availability bounds | Perform I/O |
+| `quality` | Classify every expected observation (see §5), coverage, warnings | Invent values |
+| `analysis` | Pure deterministic statistics over classified series | Perform I/O or access the network |
+| `research` | Orchestrate resolve → fetch → classify → analyze; write the research artifact | Duplicate module logic |
+| `report` | Render chart + one-page PDF from a saved research artifact and validated conclusions | Call Wikimedia, recompute statistics, or generate text |
+| `cache` | Read/write JSON responses keyed by request hash with TTL | Decide data correctness |
+
+Every module except `cli`/`research` is independently unit-testable; `wikimedia` is tested with recorded fixtures.
+
+### 3.4 Skill vs. OpenRouter harness independence
+
+- `harness/openrouter/` lives in the repository as development and integration-testing infrastructure only.
+- Dependency direction is one-way: **harness → CLI process**. `src/` and `scripts/` never import harness code,
+  never read OpenRouter variables, never name a model. `SKILL.md` does not reference the harness.
+- The harness loads `SKILL.md` as the system prompt, exposes one tool per CLI command
+  (`research`, `resolve`, `report`, plus a file-writing tool for conclusions), executes them via
+  `child_process`, runs the tool-calling loop, and saves transcripts.
+- Harness uses native `fetch` and `node --env-file` — no extra dependencies.
+- Model: `OPENROUTER_MODEL` (default `google/gemma-4-26b-a4b-it:free`). **No silent model switching**:
+  if the model is unavailable or rate-limited, the harness fails with a clear error.
+- The API key is read from `OPENROUTER_API_KEY` only at request time; it is never logged, printed,
+  or written to transcripts.
+
+### 3.5 Cache
+
+- Location: `WMR_CACHE_DIR`, else `$XDG_CACHE_HOME/wikipedia-market-research`, else `~/.cache/wikipedia-market-research`
+  (never inside the skill directory, which may be read-only).
+- Key: SHA-256 of normalized request URL. Value: raw response + HTTP status + fetch timestamp.
+- TTL: pageview ranges ending before the last complete period — 30 days; ranges touching recent data — 6 h;
+  article metadata — 7 days. `--no-cache` bypasses reads. Only successful responses and 404s are cached
+  (the 404 is stored as a raw fact, never as an interpretation).
+
+## 4. CLI input/output contracts
+
+### 4.1 Common envelope
+
+Every command writes exactly one JSON object to stdout. Exceptions: `--help` and `--version` print plain text.
+
+```json
+{
+  "ok": true,
+  "command": "research",
+  "data": {},
+  "warnings": [{ "code": "INCOMPLETE_PERIOD_EXCLUDED", "message": "...", "language": "de" }],
+  "limitations": ["Pageviews are not unique visitors or customers.", "..."],
+  "meta": { "version": "0.1.0", "generatedAt": "2026-09-25T12:00:00.000Z" }
+}
+```
+
+Error form:
+
+```json
+{ "ok": false, "command": "research",
+  "error": { "code": "INVALID_INPUT", "message": "...", "hint": "...", "details": [{ "path": "langs", "message": "..." }] },
+  "meta": { "version": "0.1.0", "generatedAt": "..." } }
+```
+
+Exit codes: `0` success · `1` invalid usage/input · `2` resolution failure/ambiguity · `3` upstream API failure ·
+`4` internal error or not implemented.
+Stdout is kept compact (summary metrics + artifact paths); full series live in artifact files.
+
+### 4.2 `resolve` — handle ambiguous topics
+
+```
+node scripts/wmr.ts resolve --topic "Intermittent fasting" --lang en [--langs en,de,uk] [--limit 5]
+```
+
+`data`:
+
+```json
+{
+  "topic": "Astronomy",
+  "status": "resolved | ambiguous | not_found",
+  "reason": "exact_title | disambiguation_page | no_exact_match | no_results",
+  "sourceLanguage": "en",
+  "source": { "lang", "title", "pageId", "url", "description", "wikidataId", "normalizedFrom", "redirectedFrom", "redirectFragment" },
+  "articles": [{ "lang", "edition": { "requestedCode", "code", "name", "autonym", "url", "closed" },
+                 "status": "verified | missing | link_broken | disambiguation", "via": "source | language_link",
+                 "title", "pageId", "url", "wikidataId", "redirectedFrom" }],
+  "missingLanguages": ["uk"],
+  "candidates": [{ "lang", "title", "pageId", "url", "description" }],
+  "nextStep": "instruction for the agent"
+}
+```
+
+- `source` is non-null and `articles` is non-empty only when `status` is `resolved`.
+- Ambiguous and not-found results are successful responses (exit 0), because the agent needs the candidates.
+- Warning codes:
+  - `REDIRECT_FOLLOWED`, `REDIRECT_TO_SECTION`
+  - `LANGUAGE_ARTICLE_MISSING`, `LANGUAGE_LINK_BROKEN`, `LANGUAGE_LINK_DISAMBIGUATION`
+  - `WIKIDATA_MISMATCH`, `EDITION_CLOSED`, `LANGUAGE_CODE_MAPPED`
+- Error codes: `INVALID_LANGUAGE` (exit 1), `UPSTREAM_ERROR` and `UNEXPECTED_RESPONSE` (exit 3).
+
+**Resolution algorithm**
+
+1. Validate every language code against the Wikimedia site matrix. Unknown codes are an error, never skipped.
+   Site-matrix codes are mapped to edition subdomains (e.g. `gsw` → `als`).
+2. Look up the topic as an exact title in the source edition. MediaWiki normalizes it and follows one redirect.
+   Titles with characters that are illegal in titles (e.g. `|`) skip this step.
+3. Search the source edition for candidates. Disambiguation pages and the resolved article are excluded.
+4. The outcome depends on what was found:
+   - An existing main-namespace article that is not a disambiguation page → `resolved`.
+   - A disambiguation page, or no exact title but some search results → `ambiguous`.
+   - Nothing at all → `not_found`.
+5. When `resolved`, follow the source article's interlanguage links to each requested edition, then verify
+   the target page: existence, redirect, disambiguation and Wikidata item.
+   An edition without a link is `missing`. It is never filled from search.
+
+### 4.3 `research` — main command
+
+```
+node scripts/wmr.ts research
+  (--topic "Intermittent fasting" --lang en | --article en:Intermittent_fasting)
+  --langs en,de,uk,pl                          # REQUIRED, explicit
+  [--start 2024-01-01 --end 2025-06-30]        # or YYYY-MM for whole months; both or neither
+  [--compare 2024-01..2024-06,2025-01..2025-06]
+  [--granularity auto|daily|monthly]           # default auto
+  [--out ./output] [--no-cache]
+```
+
+- Period selection (`request.period.mode`):
+  - `explicit`: `--start/--end` given (optionally with `--compare`).
+  - `comparisons`: only `--compare` given. Exactly those ranges are analyzed; no default period is added.
+  - `default`: nothing given. The last 12 completed calendar months are used, and the agent must state this assumption.
+- Pipeline: resolve (fails with `AMBIGUOUS_TOPIC` + candidates if not uniquely resolvable) → language links →
+  article creation dates → fetch pageviews → classify observations → analyze → write artifact.
+- `data`: `{ artifactPath, request, articles: [{ lang, title, status }], summary: { perLanguage: [{ lang, total, mean, median, trend, comparison?, coverage, quality }], ranking } }`
+- Artifact `research-<hash>.json` (Zod-validated): request, resolved articles, classified series, analysis
+  results with stable **metric IDs** (e.g. `de.total`, `en.compare.pctChange`), warnings, limitations, provenance
+  (API URLs, HTTP statuses, fetch timestamps, tool version).
+
+**Granularity `auto`:** monthly when every requested range (main + comparisons) covers whole calendar months;
+otherwise daily. Explicit `monthly` with a non-month-aligned range is rejected as invalid input.
+
+**Statistics (MVP):** total, mean, median, min/max per period unit; period-over-period absolute and % change for
+comparisons; OLS linear trend (slope as % of mean per period, R²); spike detection (median/MAD);
+cross-language ranking by absolute totals with the non-comparability caveat.
+
+**Trend interpretation thresholds** (granularity-specific; factual metrics are returned whenever they can be
+calculated correctly, even if trend interpretation is withheld):
+
+| Granularity | Minimum counted observations for a trend label | Minimum coverage |
+|---|---|---|
+| monthly | 6 months | 90 % |
+| daily | 56 days (8 weeks, dampens weekday cycles) | 90 % |
+
+Below threshold the trend is returned as `{ direction: "insufficient_data", reason }` alongside the raw slope and R².
+
+### 4.4 `report` — render from saved research data, no Wikimedia calls
+
+```
+node scripts/wmr.ts report --research ./output/research-<hash>.json --conclusions ./output/conclusions.json [--out ./output/report.pdf]
+```
+
+Conclusions schema (written by the model in the user's language, validated by Zod):
+
+```json
+{
+  "language": "uk",
+  "headline": "string (≤ 160 chars)",
+  "findings": [{ "statement": "string", "evidence": ["de.compare.pctChange"] }],
+  "hypotheses": [{ "hypothesis": "string", "validationIdea": "string" }],
+  "limitations": ["string"],
+  "labels": { "findings": "Висновки", "hypotheses": "Гіпотези", "limitations": "Обмеження" }
+}
+```
+
+- Validation rejects findings whose `evidence` IDs do not exist in the artifact.
+- Numbers in the chart and metrics table come only from the artifact.
+- Report language: model-written text plus optional section `labels` (English defaults) — no localization framework.
+- Built-in mandatory limitations are always printed.
+- Unicode: an embedded Noto Sans font covers Latin (incl. Polish), Cyrillic (incl. Ukrainian) and Greek.
+  Other scripts (CJK, Arabic, Devanagari) need additional fonts — handled in Stage 6.
+
+`data`: `{ reportPath, chartPath }`.
+
+## 5. Data-quality rules
+
+Missing data is **never silently converted to zero**. Each expected observation carries
+`views: number | null`, a `status`, and a `certainty` (`established` or `uncertain`) with a `reason`.
+
+| Status | Meaning | Value | Certainty | Evidence required |
+|---|---|---|---|---|
+| `observed` | Row returned by the API | number | established | A row in a 200 response |
+| `zero_omitted` | Unit absent from a successful response that returned other rows, within the article's lifetime and published data | `0` | uncertain until empirically verified in Stage 3 (documented API behaviour) | 200 response + known creation date + availability bounds |
+| `before_creation` | Before the article's first revision | `null` | established | MediaWiki first-revision timestamp — **never a 404** |
+| `unavailable` | Outside data availability (before 2015-07-01, after latest published data) | `null` | established | Documented bounds / request date |
+| `unavailable` | Whole range 404 for an existing article inside its lifetime — cause unknown (zero views vs. not loaded) | `null` | uncertain | 404 + MediaWiki existence |
+| `incomplete` | Period not yet complete | `null` | established | Clock (UTC) |
+| `api_error` | Request failed after retries (timeout, 5xx, exhausted 429) | `null` | established | Transport result |
+
+Rules:
+
+1. An HTTP 404 alone never implies zero views, non-existence, or a creation date. It is interpreted only together
+   with MediaWiki existence/creation data, and otherwise remains `unavailable` + `uncertain`.
+2. **Coverage** = (`observed` + `zero_omitted`) / expected units, where expected units exclude `before_creation`
+   and `incomplete`. Zero-view units are not missing data. A high share of `zero_omitted` units raises a warning.
+3. Factual metrics are computed from counted units whenever they can be computed correctly; trend interpretation
+   is gated by the thresholds in §4.3.
+4. Ranges are truncated to the last complete period for factual comparisons, with an `INCOMPLETE_PERIOD_EXCLUDED` warning.
+5. Warnings are preserved end-to-end: API → artifact → `research` stdout → PDF report.
+6. Standard warnings: redirects not aggregated, article renamed (history may be split), spikes detected
+   (possible bot/news effects), language missing (no article in that edition), uncertain statuses present.
+7. The artifact records provenance for reproducibility.
+
+## 6. Development stages
+
+Each stage ends with tests passing and a review before the next begins.
+
+| # | Stage | Output |
+|---|---|---|
+| 0 | Planning | This document ✅ |
+| 1 | Scaffold | `package.json`, `tsconfig.json`, Vitest, `SKILL.md` skeleton, `scripts/wmr.ts` with `--help`/`--version`, argument parsing, dispatch, envelope, error model, input validation, core Zod schemas, `.env.example`, MIT license ✅ |
+| 2 | Resolution | `wikimedia` client (User-Agent, retries), `resolve` command, editions, disambiguation, redirects, langlinks, mocked + live tests (in review; article creation dates moved to Stage 3) |
+| 3 | Pageviews + quality | `periods`, article creation dates, pageview retrieval, `quality` classification, cache; verify zero-omission behaviour empirically |
+| 4 | Analysis + `research` | `analysis` pure functions, orchestration, artifact, compact stdout summary |
+| 5 | OpenRouter harness | Tool loop, scenario scripts (single topic, multi-language, ambiguous topic, missing languages → clarification, follow-up), transcripts |
+| 6 | Charts + `report` | Chart + PDF library selection, Unicode fonts, conclusions validation, one-page layout |
+| 7 | Hardening | `references/` docs, follow-up flows, `skills-ref validate`, README, release |
+
+## 7. Definition of Done (MVP)
+
+- `skills-ref validate .` passes; `SKILL.md` < 500 lines with name matching the directory.
+- Fresh clone → `npm ci --omit=dev` → `node scripts/wmr.ts research …` works on Node ≥ 24 with no build step.
+- `npm test` and `npm run typecheck` pass; unit tests run offline using fixtures; `npm run test:live` passes against real Wikimedia APIs.
+- All CLI outputs validate against Zod schemas; errors include actionable `hint`s.
+- Every data-quality status and certainty in §5 is covered by tests; no missing value is silently zero-filled;
+  no zero or creation date is inferred from a 404 alone.
+- `report` renders a one-page PDF from a saved artifact without network access, in the user's language,
+  including Ukrainian and Polish text.
+- Same artifact + same conclusions → identical report content (deterministic).
+- Harness scenarios complete end-to-end with the configured model; the model is never switched silently.
+- No OpenRouter code, keys, or model names inside `src/`, `scripts/`, or `SKILL.md`.
+- Limitations (pageviews ≠ people, language ≠ country) appear in CLI output and in every report.
+
+## 8. Future roadmap (post-MVP)
+
+- Cross-language normalization (article views as share of the edition's total views).
+- Aggregating views across redirects and renamed titles.
+- Multiple articles per language / topic clusters.
+- Seasonality decomposition and more robust trend tests (e.g. Mann–Kendall).
+- Forecasting.
+- Advanced cache management (size limits, LRU eviction).
+- Persistent research history.
+- Access-type breakdown (desktop vs. mobile).
+- Broader script coverage in reports (CJK, Arabic, Indic fonts) and a localization system.
+- Additional data sources — only with a clear methodological reason.
+
+## 9. Decision log
+
+| # | Decision |
+|---|---|
+| D1 | No bundler / no committed build output; Node ≥ 24 native TypeScript execution. |
+| D2 | Three commands: `research` (main, orchestrates), `resolve` (ambiguity), `report` (from saved data only). |
+| D3 | Cross-language normalization moved to roadmap. |
+| D4 | Missing observations are classified, never auto-zeroed; statuses carry certainty. |
+| D5 | User-defined ranges; daily vs. monthly selected by the requested analysis. |
+| D6 | Report accepts structured AI conclusions; statistics stay deterministic. |
+| D7 | OpenRouter harness is dev/test only, inside the repo, no silent model switching, key never exposed. |
+| D8 | `WMR_CONTACT` configures the User-Agent; default is the repository issues URL. |
+| D9 | Default period: last 12 completed calendar months, stated explicitly by the agent. |
+| D10 | `--langs` is required; agent derives languages from context or asks. |
+| D11 | Granularity-specific trend thresholds; factual metrics always returned when calculable. |
+| D12 | PDF follows the user's language; Unicode support; no localization framework. |
+| D13 | MIT license. |
