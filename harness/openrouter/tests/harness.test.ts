@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { Agent, buildSystemPrompt } from '../agent.ts';
 import { createCliRunner, skillEnvironment, type CliRunner } from '../cli.ts';
-import { ConfigError, loadConfig, PREFERRED_MODEL } from '../config.ts';
+import { ConfigError, DEFAULT_MODEL, loadConfig } from '../config.ts';
 import { classifyModelError, ModelError, type AssistantReply, type Message, type ModelClient } from '../model.ts';
 import { MERCURY, ungroundedNumbers } from '../scenarios.ts';
 import { executeTool, researchCliArgs, TOOL_DEFINITIONS, type ToolContext } from '../tools.ts';
@@ -186,8 +186,9 @@ describe('agent loop (mocked model, real CLI report)', () => {
 describe('configuration and transcripts (mocked model)', () => {
   it('requires the key, defaults to the preferred model and honours an explicit alternative', () => {
     expect(() => loadConfig({})).toThrow(ConfigError);
-    expect(loadConfig({ OPENROUTER_API_KEY: SECRET }).model).toBe(PREFERRED_MODEL);
-    expect(loadConfig({ OPENROUTER_API_KEY: SECRET, OPENROUTER_MODEL: 'google/gemma-4-31b-it:free' }).model).toBe('google/gemma-4-31b-it:free');
+    expect(loadConfig({ OPENROUTER_API_KEY: SECRET }).model).toBe('poolside/laguna-s-2.1:free');
+    expect(DEFAULT_MODEL).toBe('poolside/laguna-s-2.1:free');
+    expect(loadConfig({ OPENROUTER_API_KEY: SECRET, OPENROUTER_MODEL: 'google/gemma-4-26b-a4b-it:free' }).model).toBe('google/gemma-4-26b-a4b-it:free');
     expect(loadConfig({ OPENROUTER_API_KEY: SECRET }).rateLimitRetries).toBe(3);
     expect(loadConfig({ OPENROUTER_API_KEY: SECRET, OPENROUTER_RATE_LIMIT_RETRIES: '10' }).rateLimitRetries).toBe(10);
     expect(() => loadConfig({ OPENROUTER_API_KEY: SECRET, OPENROUTER_RATE_LIMIT_RETRIES: 'many' })).toThrow(ConfigError);

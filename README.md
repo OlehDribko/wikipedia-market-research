@@ -8,7 +8,9 @@ The skill:
 - resolves a topic to verified Wikipedia articles in each requested language;
 - retrieves pageviews from the Wikimedia API, with data-quality checks;
 - computes deterministic statistics: totals, averages, period comparisons, trends and spikes;
-- produces a one-page PDF report with a chart, in the user's language.
+- produces a one-page PDF report with a chart. The model writes the conclusions in the user's language. Built-in
+  labels exist for English, Ukrainian and Polish; other languages get English labels unless custom labels are given.
+  The PDF font covers Latin, Cyrillic and Greek.
 
 ## Architecture and flow
 
@@ -65,7 +67,7 @@ A complete real example (research file, conclusions, PDF and SVG) is in `example
 | `WMR_CONTACT` | skill | no | Contact URL or email for the Wikimedia User-Agent (default: this repository's issue tracker) |
 | `WMR_CACHE_DIR` | skill | no | Cache directory (default: `$XDG_CACHE_HOME` or `~/.cache/wikipedia-market-research`) |
 | `OPENROUTER_API_KEY` | harness only | for live tests | OpenRouter key; never passed to the skill process or written to transcripts |
-| `OPENROUTER_MODEL` | harness only | no | Model for live tests (default `google/gemma-4-26b-a4b-it:free`; live-verified with `poolside/laguna-s-2.1:free`) |
+| `OPENROUTER_MODEL` | harness only | no | Model for live tests (default and live-verified: `poolside/laguna-s-2.1:free`) |
 | `OPENROUTER_RATE_LIMIT_RETRIES` | harness only | no | Retries after HTTP 429 (default 3) |
 
 Copy `.env.example` to `.env` for local settings. `.env` is git-ignored.

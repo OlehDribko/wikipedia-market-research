@@ -2,7 +2,11 @@
  * Harness configuration from the environment. The key is never logged, printed or written to transcripts.
  * There is no automatic fallback model: if the configured model fails, the run fails and says why.
  */
-export const PREFERRED_MODEL = 'google/gemma-4-26b-a4b-it:free';
+/**
+ * Default model: the one used for live verification. The brief's preferred google/gemma-4-26b-a4b-it:free returned
+ * HTTP 429 throughout testing; it can still be selected explicitly via OPENROUTER_MODEL.
+ */
+export const DEFAULT_MODEL = 'poolside/laguna-s-2.1:free';
 
 export interface HarnessConfig {
   apiKey: string;
@@ -27,7 +31,7 @@ export function loadConfig(env: Record<string, string | undefined> = process.env
   if (!apiKey) {
     throw new ConfigError('OPENROUTER_API_KEY is not set. Add it to .env (see .env.example); it is only read by the harness.');
   }
-  const model = env.OPENROUTER_MODEL?.trim() || PREFERRED_MODEL;
+  const model = env.OPENROUTER_MODEL?.trim() || DEFAULT_MODEL;
   const retries = Number(env.OPENROUTER_RATE_LIMIT_RETRIES ?? 3);
   if (!Number.isInteger(retries) || retries < 0 || retries > 20) throw new ConfigError('OPENROUTER_RATE_LIMIT_RETRIES must be an integer from 0 to 20.');
   return { apiKey, model, maxModelCallsPerTurn: 12, maxReportAttempts: 3, rateLimitRetries: retries };

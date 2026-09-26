@@ -10,7 +10,7 @@ metadata:
 
 # Wikipedia Market Research
 
-> **Development status (v0.1.0):** `resolve`, `research` (including statistics) and `report` work.
+> **Status (v0.1.0):** MVP complete. `resolve`, `research` (including statistics) and `report` are implemented.
 
 ## Setup
 

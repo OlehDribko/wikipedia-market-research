@@ -54,8 +54,9 @@ npm run harness -- mercury       # scenario D (ambiguous topic) in a fresh conve
 npm run harness -- all
 ```
 
-- **Default model:** `OPENROUTER_MODEL` defaults to `google/gemma-4-26b-a4b-it:free`. The live runs used
-  `poolside/laguna-s-2.1:free`, because the Gemma free pool returned HTTP 429 throughout testing.
+- **Default model:** `OPENROUTER_MODEL` defaults to `poolside/laguna-s-2.1:free`, the model used for the live runs.
+  The originally preferred `google/gemma-4-26b-a4b-it:free` returned HTTP 429 throughout testing; set it explicitly
+  to try it again.
 - **Rate limits:** `OPENROUTER_RATE_LIMIT_RETRIES` (default 3) sets how often the same model is retried after HTTP 429.
   A turn that still fails is recorded as `model_error: rate_limited`. Free endpoints share an upstream pool, so this
   is a provider limitation, not a skill failure.

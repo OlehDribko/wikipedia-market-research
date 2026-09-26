@@ -1,9 +1,9 @@
 /**
  * Live OpenRouter test harness for the Wikipedia Market Research skill (development/testing only).
  *
- *   node --env-file-if-exists=.env harness/openrouter/run.ts [ping|conversation|mercury|all]
+ *   node --env-file-if-exists=.env harness/openrouter/run.ts [ping|short|scenario-a|conversation|mercury|all]
  *
- * Needs OPENROUTER_API_KEY; OPENROUTER_MODEL defaults to google/gemma-4-26b-a4b-it:free.
+ * Needs OPENROUTER_API_KEY; OPENROUTER_MODEL defaults to poolside/laguna-s-2.1:free.
  */
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';

@@ -51,7 +51,9 @@ a localization framework.
 - Pageviews ≠ unique people ≠ customers.
 - A language edition ≠ a country.
 - Absolute views across editions are not directly comparable (edition sizes differ).
-- No fabricated statistics; every number in conclusions must come from CLI output.
+- No fabricated statistics. In report conclusions, statistical numbers appear only in findings and must equal a
+  metric the finding cites. The headline, hypotheses and limitations may contain only research-setup numbers (years,
+  period lengths, counts). `validationIdea` may contain planning numbers. See §4.4.
 - Factual comparisons use completed periods only.
 - Languages are never chosen arbitrarily: the agent derives them from the request/context or asks the user.
 
@@ -72,7 +74,7 @@ No bundler, no committed build output, no compile step.
   - `WMR_CACHE_DIR` — optional cache location.
   - `OPENROUTER_*` — harness only; never read by the skill.
 
-### 3.2 Directory layout (end state; files are created only when their stage needs them)
+### 3.2 Directory layout
 
 ```
 wikipedia-market-research/        ← repo root = skill directory
@@ -85,7 +87,6 @@ wikipedia-market-research/        ← repo root = skill directory
 ├── scripts/
 │   └── wmr.ts                    ← thin CLI entry, delegates to src/cli
 ├── references/                   ← loaded on demand by the agent
-│   ├── CLI.md                    ← full command and JSON contracts
 │   └── METHODOLOGY.md            ← metrics, data-quality statuses, interpretation rules
 ├── assets/fonts/                 ← Noto Sans Regular/Bold (SIL OFL 1.1, OFL.txt) embedded in PDFs
 ├── examples/                     ← real example research files, conclusions and reports
@@ -121,17 +122,34 @@ Every module except `cli`/`research` is independently unit-testable; `wikimedia`
 
 ### 3.4 Skill vs. OpenRouter harness independence
 
-- `harness/openrouter/` lives in the repository as development and integration-testing infrastructure only.
-- Dependency direction is one-way: **harness → CLI process**. `src/` and `scripts/` never import harness code,
-  never read OpenRouter variables, never name a model. `SKILL.md` does not reference the harness.
-- The harness loads `SKILL.md` as the system prompt, exposes one tool per CLI command
-  (`research`, `resolve`, `report`, plus a file-writing tool for conclusions), executes them via
-  `child_process`, runs the tool-calling loop, and saves transcripts.
-- Harness uses native `fetch` and `node --env-file` — no extra dependencies.
-- Model: `OPENROUTER_MODEL` (default `google/gemma-4-26b-a4b-it:free`). **No silent model switching**:
-  if the model is unavailable or rate-limited, the harness fails with a clear error.
-- The API key is read from `OPENROUTER_API_KEY` only at request time; it is never logged, printed,
-  or written to transcripts.
+- **Location and role.** `harness/openrouter/` lives in the repository as development and integration-testing
+  infrastructure only.
+- **One-way dependency: harness → CLI process.**
+  - `src/` and `scripts/` never import harness code, never read OpenRouter variables and never name a model.
+  - `SKILL.md` does not reference the harness.
+- **Prompt and tools.** The harness loads `SKILL.md` as the system prompt and exposes four function tools:
+  - `resolve`, `research` and `report` map 1:1 to the CLI commands. For `report`, the model passes the conclusions as
+    an object, and the harness writes the JSON file.
+  - `research_metrics` is read-only. It returns metric IDs and values from a saved research file, never raw
+    observations.
+  - Files are accessible only inside the run's own directory.
+- **Execution.**
+  - The CLI runs through `child_process.execFile` with an argument array and no shell.
+  - The skill process gets a filtered environment without the OpenRouter key.
+  - Each run uses its own cache directory.
+- **Model client.**
+  - The official `@openrouter/sdk` (a dev dependency), with non-streaming chat completions.
+  - Settings are loaded with `node --env-file-if-exists=.env`.
+  - Model: `OPENROUTER_MODEL`, default `poolside/laguna-s-2.1:free` (see D19).
+  - HTTP 429 is retried with the **same** model, `OPENROUTER_RATE_LIMIT_RETRIES` times (default 3).
+- **Failure handling.**
+  - **No automatic model switching:** if the model stays unavailable, the turn fails with a classified error
+    (`rate_limited`, `model_unavailable`, …).
+  - A turn stops after 12 model calls, or after 3 invalid report attempts. Validation is never bypassed.
+- **Evidence.**
+  - Each run writes `runs/<timestamp>/` (git-ignored): `summary.json` (with per-call HTTP status, served model and
+    latency), `transcript.md`/`.json`, research files and reports.
+  - The API key and OpenRouter `user_id` values are redacted, and the run aborts if any output file contains the key.
 
 ### 3.5 Cache
 
@@ -470,7 +488,8 @@ Each stage ends with tests passing and a review before the next begins.
 - Cross-language normalization (article views as share of the edition's total views).
 - Aggregating views across redirects and renamed titles.
 - Multiple articles per language / topic clusters.
-- Seasonality decomposition and more robust trend tests (e.g. Mann–Kendall).
+- Seasonality decomposition and trend methods beyond the implemented Mann–Kendall/Theil–Sen approach (e.g. seasonal
+  Mann–Kendall, or tests corrected for autocorrelation).
 - Forecasting.
 - Advanced cache management (size limits, LRU eviction).
 - Persistent research history.
@@ -514,7 +533,8 @@ Each stage ends with tests passing and a review before the next begins.
 | D12 | PDF follows the user's language; Unicode support; no localization framework. |
 | D13 | MIT license. |
 | D14 | Trend = Mann–Kendall + Theil–Sen + half-median check + spike robustness; daily data tested on 7-day blocks; "stable" also requires robust CV ≤ 0.5; fifth label `no_clear_trend`. |
+| D15 | Totals only for complete periods with all expected units; averages need coverage ≥ 90 %; comparisons use unrounded values and lead with average daily views when durations differ. |
 | D16 | Stages reordered at the user's request: report (5) before the OpenRouter harness (6). |
 | D17 | PDF via `pdfkit`, glyph checks and text measurement via `fontkit`, bundled Noto Sans (OFL); no SVG-to-PDF library, since one chart layout renders to both. Test-only: `unpdf` for PDF text extraction. |
 | D18 | Conclusions may contain statistics only in findings backed by cited metrics; report labels built in for en/uk/pl only. |
-| D15 | Totals only for complete periods with all expected units; averages need coverage ≥ 90 %; comparisons use unrounded values and lead with average daily views when durations differ. |
+| D19 | Harness default model `poolside/laguna-s-2.1:free`, the model used for live verification. The brief's preferred `google/gemma-4-26b-a4b-it:free` returned HTTP 429 throughout testing; it remains selectable via `OPENROUTER_MODEL`. One explicitly configured model per run; no automatic fallback. |
