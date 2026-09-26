@@ -1,5 +1,5 @@
 import type { PlannedPeriod, FetchGranularity } from '../periods/plan.ts';
-import { unitEnd } from '../periods/plan.ts';
+import { unitEnd, unitLabel } from '../periods/plan.ts';
 import type { Warning } from '../schemas/envelope.ts';
 import { UNAVAILABLE_REASON } from './classify.ts';
 import { ObservationStatusSchema, type Observation, type ObservationStatus } from '../schemas/observation.ts';
@@ -75,7 +75,7 @@ export function qualityWarnings(
 ): Warning[] {
   const { lang, title, granularity } = context;
   const warnings: Warning[] = [];
-  const range = (list: Observation[]) => `${list[0]?.period} to ${list.at(-1)?.period}`;
+  const range = (list: Observation[]) => `${unitLabel(list[0]?.period ?? '', granularity)} to ${unitLabel(list.at(-1)?.period ?? '', granularity)}`;
 
   const incomplete = firstWith(observations, 'incomplete');
   if (incomplete.length > 0) {

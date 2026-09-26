@@ -95,6 +95,9 @@ that a translated title exists. If a redirect warning shows the article is broad
   Never phrase it as "views grew by X %".
 - **Spikes:** `topSpikes` lists unusual peaks. Their causes are unknown; do not speculate. They stay included in all
   totals.
+- **Periods:** in monthly data, a period such as `2025-11` means the **whole calendar month** (November 2025), never
+  a single day. The research file stores the same month as `2025-11-01`. Daily data uses full dates
+  (`2025-06-15`).
 - **Nulls:** a null metric means it could not be calculated reliably. Say so; never estimate it.
 - **Citing:** cite numbers by metric ID following `metricIdPattern` (e.g. `uk.main.averageDaily`).
 
@@ -142,13 +145,28 @@ Rules, checked by the CLI:
 
 ## Interpretation rules
 
-- Pageviews are **not** unique people, visitors or customers.
-- A Wikipedia language edition is **not** a country.
-- Absolute views are not directly comparable across language editions (edition sizes differ).
-- Use only numbers from CLI output. Every finding in a report must cite metric IDs from the research file.
-- Treat trends marked `insufficient_data` as undetermined. You may still report the factual totals.
-- Say "statistically significant" only for p < 0.05, and note that p-values are approximate for pageview data.
+Every answer that interprets results **must state**:
+
+- **Pageviews are not people.** They are not unique people, visitors or customers. Say this whenever you discuss
+  audience, interest or size, and never convert views into a number of people.
+- **Languages are not countries.** A Wikipedia language edition is not a country; its readers live in many countries.
+- **The size caveat.** When you compare absolute views across language editions, add that editions differ in size,
+  so absolute views are not directly comparable.
+- **Warnings.** Mention data-quality warnings and uncertain statuses.
+
+It **must never**:
+
+- **Misuse "significant".** Call a change or trend "significant" (or "statistically significant") only when the
+  output gives a p-value below 0.05 for that exact trend (`trendPValue`), and quote the p-value. Period comparisons
+  have no significance test: describe their size (e.g. "−24.2 %"), not their significance.
+- **Invent causes.** Do not name causes for spikes, trends or differences (events, algorithms, access problems,
+  changing interest) unless the tool output states them. Say that causes are unknown; possible explanations belong in
+  hypotheses to validate.
+- **Guess numbers.** Use only numbers from CLI output. Don't compute new statistics, and don't forecast.
+
+Also:
+
+- Every finding in a report must cite metric IDs from the research file.
+- Treat trends marked `insufficient_data` as undetermined; you may still report the factual totals.
 - A trend over less than a year (`TREND_MAY_BE_SEASONAL`) may be seasonal. Say so.
-- Cross-language rankings compare absolute views, not relative interest.
-- Always tell the user about data-quality warnings and uncertain statuses.
-- No forecasts: describe what happened in completed periods only.
+- p-values are approximate for pageview data, because the observations are not independent.

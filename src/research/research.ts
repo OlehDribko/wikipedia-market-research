@@ -4,7 +4,7 @@ import { analyzeResearch } from '../analysis/analyze.ts';
 import { writeFileAtomic } from '../cache/atomicWrite.ts';
 import type { FileCache } from '../cache/fileCache.ts';
 import { todayUtc } from '../periods/dates.ts';
-import { planPeriods, type PeriodPlan } from '../periods/plan.ts';
+import { planPeriods, unitLabel, type PeriodPlan } from '../periods/plan.ts';
 import { dedupeWarnings } from '../quality/summary.ts';
 import type { Analysis } from '../schemas/analysis.ts';
 import type { Warning } from '../schemas/envelope.ts';
@@ -102,19 +102,20 @@ export interface AnalysisDigest {
     status: string;
     issues: string[];
   }[];
+  /** `period` is a day (YYYY-MM-DD) for daily data or a whole calendar month (YYYY-MM) for monthly data. */
   topSpikes: { lang: string; periodId: string; period: string; views: number; ratioToBaseline: number | null }[];
   crossLanguage: { periodId: string; byAverageDaily: string[] }[];
 }
 
 const TOP_SPIKES = 5;
 
-export function digestAnalysis(analysis: Analysis): AnalysisDigest {
+export function digestAnalysis(analysis: Analysis, granularity: PeriodPlan['granularity']): AnalysisDigest {
   const spikes = analysis.languages.flatMap((language) =>
     language.periods.flatMap((period) =>
       period.anomalies.anomalies.map((anomaly) => ({
         lang: language.lang,
         periodId: period.periodId,
-        period: anomaly.period,
+        period: unitLabel(anomaly.period, granularity),
         views: anomaly.views,
         ratioToBaseline: anomaly.ratioToBaseline,
       })),
@@ -285,7 +286,7 @@ export async function runResearch(request: ResearchRequest, deps: ResearchDeps):
     })),
     unavailableLanguages,
     cache: { enabled: deps.cache !== null, ...context.stats },
-    analysis: digestAnalysis(analysis),
+    analysis: digestAnalysis(analysis, plan.granularity),
     nextStep: nextStep(plan, datasets),
   };
 

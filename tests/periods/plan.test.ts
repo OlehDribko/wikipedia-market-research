@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { addDays, addMonths, enumerateDays, enumerateMonths, fromApiTimestamp, monthEnd, todayUtc } from '../../src/periods/dates.ts';
-import { completeCeiling, defaultPeriod, planPeriods, unitEnd, unitsFor } from '../../src/periods/plan.ts';
+import { completeCeiling, defaultPeriod, planPeriods, unitEnd, unitLabel, unitsFor } from '../../src/periods/plan.ts';
 
 describe('calendar helpers', () => {
   it('handles month and year boundaries and leap years', () => {
@@ -92,6 +92,11 @@ describe('units', () => {
       'daily',
     );
     expect(units).toEqual(['2025-01-30', '2025-01-31', '2025-02-01', '2025-02-02', '2025-02-03']);
+  });
+
+  it('labels monthly units as whole months and daily units as days', () => {
+    expect(unitLabel('2025-11-01', 'monthly')).toBe('2025-11');
+    expect(unitLabel('2025-11-01', 'daily')).toBe('2025-11-01');
   });
 
   it('computes unit ends and the last complete day', () => {

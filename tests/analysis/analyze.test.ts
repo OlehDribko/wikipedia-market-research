@@ -165,6 +165,23 @@ describe('cross-language analysis', () => {
     expect(warnings).toContainEqual(expect.objectContaining({ code: 'SPIKES_DETECTED', language: 'uk' }));
   });
 
+  it('names the month, not a day, when a monthly spike is flagged', () => {
+    const values = [1000, 1020, 980, 1010, 990, 5000, 1005, 995, 1015, 985, 1000, 1010];
+    const { warnings } = analyzeResearch([dataset('uk', 'monthly', monthly(values, '2025-01-01'))], { periods: [main] });
+    const message = warnings.find((warning) => warning.code === 'SPIKES_DETECTED')?.message ?? '';
+    expect(message).toContain('largest in the month 2025-06 with 5000 views');
+    expect(message).not.toContain('2025-06-01');
+  });
+
+  it('keeps the exact day for daily spikes', () => {
+    const values = Array.from({ length: 40 }, () => 100);
+    values[20] = 900;
+    const { warnings } = analyzeResearch([dataset('uk', 'daily', dailySeries('2025-01-01', values))], {
+      periods: [{ id: 'main', start: '2025-01-01', end: '2025-02-09' }],
+    });
+    expect(warnings.find((warning) => warning.code === 'SPIKES_DETECTED')?.message).toContain('largest on 2025-01-21 with 900 views');
+  });
+
   it('propagates data-quality problems as language-specific warnings', () => {
     const gappy = dataset('de', 'monthly', monthly([100, null, null, 100, 100, 100, 100, 100, 100, 100, 100, 100], '2025-01-01'));
     const { warnings } = analyzeResearch([pl, gappy], { periods: [main] });

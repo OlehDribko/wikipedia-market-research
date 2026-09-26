@@ -236,6 +236,21 @@ describe('research: analysis output', () => {
   });
 });
 
+describe('research: compact digest units', () => {
+  it('labels monthly spikes as whole months (real Astronomy research file)', async () => {
+    const { readFileSync } = await import('node:fs');
+    const { digestAnalysis } = await import('../../src/research/research.ts');
+    const artifact = ResearchArtifactSchema.parse(JSON.parse(readFileSync(new URL('../fixtures/research-astronomy-uk-pl-2024-vs-2025.json', import.meta.url), 'utf8')));
+    const spikes = digestAnalysis(artifact.analysis, artifact.plan.granularity).topSpikes;
+    expect(spikes.map((spike) => [spike.lang, spike.period, spike.views])).toEqual([
+      ['pl', '2025-11', 3845],
+      ['uk', '2024-09', 4687],
+    ]);
+    // The full research file keeps machine-readable ISO dates.
+    expect(artifact.analysis.languages[1]?.periods[1]?.anomalies.anomalies[0]?.period).toBe('2025-11-01');
+  });
+});
+
 describe('research: API failures', () => {
   it('retries HTTP 429 and still returns observed data', async () => {
     let throttled = 0;

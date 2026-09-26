@@ -1,0 +1,194 @@
+{
+ "ok": true,
+ "data": {
+  "analysis": {
+   "metricIdPattern": "<lang>.<periodId>.<metric> (e.g. uk.main.averageDaily) or <lang>.<baselineId>_vs_<currentId>.<metric> (e.g. uk.compare-1_vs_compare-2.percentChange)",
+   "periods": [
+    {
+     "lang": "uk",
+     "periodId": "compare-1",
+     "total": 25473,
+     "averageDaily": 69.6,
+     "averageMonthly": 2122.75,
+     "coverage": 1,
+     "trend": "no_clear_trend",
+     "trendSlopeSpanPercentOfMedian": -78.05,
+     "trendPValue": 0.062869,
+     "spikes": 1,
+     "largestUnitShare": 0.184
+    },
+    {
+     "lang": "uk",
+     "periodId": "compare-2",
+     "total": 10227,
+     "averageDaily": 28.02,
+     "averageMonthly": 852.25,
+     "coverage": 1,
+     "trend": "no_clear_trend",
+     "trendSlopeSpanPercentOfMedian": -112.32,
+     "trendPValue": 0.086317,
+     "spikes": 0,
+     "largestUnitShare": 0.1606
+    },
+    {
+     "lang": "pl",
+     "periodId": "compare-1",
+     "total": 26935,
+     "averageDaily": 73.59,
+     "averageMonthly": 2244.58,
+     "coverage": 1,
+     "trend": "decreasing",
+     "trendSlopeSpanPercentOfMedian": -45.22,
+     "trendPValue": 0.02098,
+     "spikes": 0,
+     "largestUnitShare": 0.1137
+    },
+    {
+     "lang": "pl",
+     "periodId": "compare-2",
+     "total": 20362,
+     "averageDaily": 55.79,
+     "averageMonthly": 1696.83,
+     "coverage": 1,
+     "trend": "no_clear_trend",
+     "trendSlopeSpanPercentOfMedian": -29.95,
+     "trendPValue": 0.737306,
+     "spikes": 1,
+     "largestUnitShare": 0.1888
+    }
+   ],
+   "comparisons": [
+    {
+     "id": "compare-1_vs_compare-2",
+     "lang": "uk",
+     "percentChange": -59.85,
+     "averageDailyPercentChange": -59.74,
+     "primaryMeasure": "averageDaily",
+     "status": "comparable_with_limitations",
+     "issues": [
+      "UNEQUAL_DURATION",
+      "SPIKES_PRESENT"
+     ]
+    },
+    {
+     "id": "compare-1_vs_compare-2",
+     "lang": "pl",
+     "percentChange": -24.4,
+     "averageDailyPercentChange": -24.2,
+     "primaryMeasure": "averageDaily",
+     "status": "comparable_with_limitations",
+     "issues": [
+      "UNEQUAL_DURATION",
+      "SPIKES_PRESENT"
+     ]
+    }
+   ],
+   "topSpikes": [
+    {
+     "lang": "pl",
+     "periodId": "compare-2",
+     "period": "2025-11-01",
+     "views": 3845,
+     "ratioToBaseline": 3.2
+    },
+    {
+     "lang": "uk",
+     "periodId": "compare-1",
+     "period": "2024-09-01",
+     "views": 4687,
+     "ratioToBaseline": 2.68
+    }
+   ],
+   "crossLanguage": [
+    {
+     "periodId": "compare-1",
+     "byAverageDaily": [
+      "pl",
+      "uk"
+     ]
+    },
+    {
+     "periodId": "compare-2",
+     "byAverageDaily": [
+      "pl",
+      "uk"
+     ]
+    }
+   ]
+  },
+  "languages": [
+   {
+    "lang": "uk",
+    "title": "Астрономія",
+    "url": "https://uk.wikipedia.org/wiki/%D0%90%D1%81%D1%82%D1%80%D0%BE%D0%BD%D0%BE%D0%BC%D1%96%D1%8F",
+    "wikidataId": "Q333",
+    "createdAt": "2004-02-26T16:27:52Z",
+    "publishedThrough": "2026-08-31",
+    "units": 24,
+    "counts": {
+     "observed": 24,
+     "zero_omitted": 0,
+     "before_creation": 0,
+     "unavailable": 0,
+     "incomplete": 0,
+     "api_error": 0
+    },
+    "uncertain": 0,
+    "coverage": [
+     {
+      "periodId": "compare-1",
+      "coverage": 1
+     },
+     {
+      "periodId": "compare-2",
+      "coverage": 1
+     }
+    ]
+   },
+   {
+    "lang": "pl",
+    "title": "Astronomia",
+    "url": "https://pl.wikipedia.org/wiki/Astronomia",
+    "wikidataId": "Q333",
+    "createdAt": "2002-09-13T22:14:35Z",
+    "publishedThrough": "2026-08-31",
+    "units": 24,
+    "counts": {
+     "observed": 24,
+     "zero_omitted": 0,
+     "before_creation": 0,
+     "unavailable": 0,
+     "incomplete": 0,
+     "api_error": 0
+    },
+    "uncertain": 0,
+    "coverage": [
+     {
+      "periodId": "compare-1",
+      "coverage": 1
+     },
+     {
+      "periodId": "compare-2",
+      "coverage": 1
+     }
+    ]
+   }
+  ]
+ },
+ "warnings": [
+  {
+   "code": "SPIKES_DETECTED",
+   "message": "1 unusual spike(s) (uk, period compare-1); largest on 2024-09-01 with 4687 views. Causes are unknown.",
+   "language": "uk"
+  },
+  {
+   "code": "SPIKES_DETECTED",
+   "message": "1 unusual spike(s) (pl, period compare-2); largest on 2025-11-01 with 3845 views. Causes are unknown.",
+   "language": "pl"
+  },
+  {
+   "code": "UNEQUAL_PERIOD_LENGTH",
+   "message": "compare-1_vs_compare-2 (366 vs 365 days): The periods have different lengths; compare average daily views, not totals, for interest intensity."
+  }
+ ]
+}

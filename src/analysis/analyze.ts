@@ -1,4 +1,4 @@
-import type { PeriodPlan } from '../periods/plan.ts';
+import { unitLabel, type FetchGranularity, type PeriodPlan } from '../periods/plan.ts';
 import { ANALYSIS_METHODOLOGY_VERSION, type Analysis, type Comparison, type MetricEntry, type PeriodAnalysis } from '../schemas/analysis.ts';
 import type { Warning } from '../schemas/envelope.ts';
 import type { Dataset } from '../schemas/research.ts';
@@ -81,7 +81,7 @@ const COMPARISON_MESSAGES: Partial<Record<Comparison['issues'][number], string>>
   PERIODS_OVERLAP: 'The periods overlap, so they share observations.',
 };
 
-function analysisWarnings(languages: Analysis['languages'], comparisons: readonly Comparison[]): Warning[] {
+function analysisWarnings(languages: Analysis['languages'], comparisons: readonly Comparison[], granularity: FetchGranularity): Warning[] {
   const warnings: Warning[] = [];
   for (const language of languages) {
     for (const period of language.periods) {
@@ -107,7 +107,9 @@ function analysisWarnings(languages: Analysis['languages'], comparisons: readonl
         const top = [...period.anomalies.anomalies].sort((a, b) => b.views - a.views)[0];
         warnings.push({
           code: 'SPIKES_DETECTED',
-          message: `${period.anomalies.anomalies.length} unusual spike(s) (${where}); largest on ${top?.period} with ${top?.views} views. Causes are unknown.`,
+          message: `${period.anomalies.anomalies.length} unusual spike(s) (${where}); largest ${
+            granularity === 'monthly' ? `in the month ${unitLabel(top?.period ?? '', granularity)}` : `on ${top?.period}`
+          } with ${top?.views} views. Causes are unknown.`,
           language: language.lang,
         });
       }
@@ -177,5 +179,5 @@ export function analyzeResearch(datasets: readonly Dataset[], plan: Pick<PeriodP
     metrics: metricIndex(languages, comparisons),
     limitations: [...ANALYSIS_LIMITATIONS],
   };
-  return { analysis, warnings: analysisWarnings(languages, comparisons) };
+  return { analysis, warnings: analysisWarnings(languages, comparisons, datasets[0]?.granularity ?? 'daily') };
 }

@@ -165,6 +165,18 @@ describe('summarizeQuality and qualityWarnings', () => {
     expect(codes2).toEqual(['INCOMPLETE_PERIOD_EXCLUDED', 'BEFORE_ARTICLE_CREATION', 'ZERO_VIEWS_INFERRED']);
   });
 
+  it('writes month ranges as YYYY-MM in monthly warnings', () => {
+    const monthlyObservations = classify({
+      granularity: 'monthly',
+      today: '2026-01-15',
+      units: ['2025-12-01', '2026-01-01', '2026-02-01'],
+      chunks: [ok('2025-01-01', '2025-12-31', { '2025-12-01': 5 })],
+    });
+    const quality = summarizeQuality(monthlyObservations, [{ id: 'main', start: '2025-12-01', end: '2026-02-28' }], 'monthly');
+    const warning = qualityWarnings({ lang: 'uk', title: 'X', createdOn: '2020-01-01', granularity: 'monthly' }, monthlyObservations, quality)[0];
+    expect(warning?.message).toContain('2 months (2026-01 to 2026-02)');
+  });
+
   it('deduplicates identical warnings from several languages', () => {
     const warning = { code: 'INCOMPLETE_PERIOD_EXCLUDED', message: 'same' };
     expect(dedupeWarnings([warning, { ...warning }, { ...warning, language: 'uk' }])).toHaveLength(2);

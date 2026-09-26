@@ -67,6 +67,14 @@ export function unitsFor(periods: readonly DateRange[], granularity: FetchGranul
   return [...units].sort();
 }
 
+/**
+ * Human-facing label of a unit: the day ("2025-06-15") or the month ("2025-11").
+ * Monthly units are stored as their first day; showing "2025-11-01" invites reading a whole month as one day.
+ */
+export function unitLabel(unit: string, granularity: FetchGranularity): string {
+  return granularity === 'monthly' ? unit.slice(0, 7) : unit;
+}
+
 export function unitEnd(unit: string, granularity: FetchGranularity): string {
   return granularity === 'daily' ? unit : monthEnd(unit);
 }

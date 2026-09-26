@@ -1,6 +1,6 @@
 # Wikipedia Market Research — Project Plan
 
-Status: **Stage 5 (charts + PDF report) — in review.** Stages 1–4 accepted; decisions recorded in §9.
+Status: **Implementation frozen for submission.** Stages 1–6 complete; documentation finalized (Stage 7). Decisions in §9; known limitations and live results in `README.md`.
 
 ## 1. Project goal
 
@@ -446,9 +446,9 @@ Each stage ends with tests passing and a review before the next begins.
 | 2 | Resolution | `wikimedia` client (User-Agent, retries), `resolve` command, editions, disambiguation, redirects, langlinks, mocked + live tests ✅ |
 | 3 | Pageviews + quality | `periods`, article creation dates, pageview retrieval, publication horizon, `quality` classification, file cache, `research` collects data and saves the artifact ✅ |
 | 4 | Analysis + `research` | `analysis` pure functions (metrics, comparisons, trend, spikes, cross-language), metric index, digest, METHODOLOGY.md ✅ |
-| 5 | Charts + `report` | SVG/PDF chart from one layout, PDFKit + Noto Sans, conclusions validation, one-page layout, real example reports (in review) |
-| 6 | OpenRouter harness | Tool loop, scenario scripts (single topic, multi-language, ambiguous topic, missing languages → clarification, follow-up, report), transcripts |
-| 7 | Hardening | `references/` docs, follow-up flows, `skills-ref validate`, README, release |
+| 5 | Charts + `report` | SVG/PDF chart from one layout, PDFKit + Noto Sans, conclusions validation, one-page layout, real example reports ✅ |
+| 6 | OpenRouter harness | Tool loop, scenarios A–E, mocked and live tests, transcripts. Live-verified with `poolside/laguna-s-2.1:free` ✅ |
+| 7 | Finalization | README, known limitations, roadmap, final offline verification ✅ |
 
 ## 7. Definition of Done (MVP)
 
@@ -477,6 +477,24 @@ Each stage ends with tests passing and a review before the next begins.
 - Access-type breakdown (desktop vs. mobile).
 - Broader script coverage in reports (CJK, Arabic, Indic fonts) and a localization system.
 - Additional data sources — only with a clear methodological reason.
+- **LLM provider layer** for agent integrations. Identified in Stage 6, when the free models were rate-limited or
+  restricted to certain apps; it is not part of the MVP.
+  - A provider abstraction.
+  - Capability-aware model selection (tool calling, context size).
+  - An ordered model fallback list.
+  - Automatic failover on rate limits, provider outages and timeouts.
+  - Cost and availability policies.
+  - Support for more providers (OpenAI, Anthropic, local models).
+  - OpenRouter already supports ordered model fallbacks through its model routing (a `models` list tried in order),
+    which would be the first building block. The harness deliberately does not use it today: a model change must
+    stay explicit.
+- **Answer quality:**
+  - Stronger semantic verification of comparative claims (direction of changes and gaps) against the research file.
+  - An optional evaluator/critic pass for qualitative conclusions.
+  - Multilingual semantic safeguards; the harness heuristics currently target English.
+- **Efficiency and measurement:**
+  - Token and context efficiency: smaller tool results and prompt caching.
+  - Recording and comparing model quality across repeated evaluation runs.
 
 ## 9. Decision log
 
